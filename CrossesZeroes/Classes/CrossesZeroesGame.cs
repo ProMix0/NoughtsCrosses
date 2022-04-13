@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace CrossesZeroes
 {
+    /// <summary>
+    /// Реализация игры крестики-нолики
+    /// </summary>
     class CrossesZeroesGame : CrossesZeroesAbstract
     {
+        /// <inheritdoc/>
         public CrossesZeroesGame(IPlayer player1, IPlayer player2, CrossesZeroesField field)
+            ///Вызов конструктора базового класса с параметрами
             : base(player1, player2, field)
         {
             cross.SetMark(CellState.Cross);
@@ -16,6 +21,8 @@ namespace CrossesZeroes
         }
 
         private bool gameCompleted = false;
+
+        /// <inheritdoc/>
         public override bool Turn()
         {
             if (gameCompleted) return false;
@@ -28,9 +35,10 @@ namespace CrossesZeroes
 
             return true;
 
+            //Проверка на выигрыш
             void CheckWin()
             {
-                if (field.IsWin(out CellState winner))
+                if (field.IsEndGame(out CellState winner))
                 {
                     switch (winner)
                     {
@@ -58,6 +66,7 @@ namespace CrossesZeroes
         {
             gameCompleted = false;
 
+            //Смена знака игроков
             IPlayer temp = cross;
             cross = zero;
             zero = temp;

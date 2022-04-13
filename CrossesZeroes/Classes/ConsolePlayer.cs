@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CrossesZeroes
 {
+    /// <summary>
+    /// Представление физического игрока для вывода в консоль
+    /// </summary>
     class ConsolePlayer : IRealPlayer
     {
         public void ReportEnd(bool victory)
@@ -25,6 +28,7 @@ namespace CrossesZeroes
 
             Console.WriteLine(mark == CellState.Cross ? "You are cross!" : "You are zero!");
 
+            //Вывод поля в консоль
             for(int i = 0; i < field.Size; i++)
             {
                 for (int j = 0; j < field.Size; j++)
@@ -39,6 +43,7 @@ namespace CrossesZeroes
             }
 
             Console.WriteLine($"Enter turn coords (zero-based)\nMust be from 0 to {field.Size-1}\nAlso must be empty");
+            //Ожидание ввода корректных координат хода
             while (true)
             {
                 string[] strInput = Console.ReadLine().Split();

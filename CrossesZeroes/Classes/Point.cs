@@ -1,5 +1,8 @@
 ﻿namespace CrossesZeroes
 {
+    /// <summary>
+    /// Класс, представляющий координаты
+    /// </summary>
     public struct Point
     {
         public readonly int x, y;

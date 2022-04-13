@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CrossesZeroes
 {
+    /// <summary>
+    /// Перечисление, отражающее текущее состояние клетки игрового поля
+    /// </summary>
     public enum CellState
     {
         Empty,

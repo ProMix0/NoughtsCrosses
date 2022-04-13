@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CrossesZeroes
 {
+    /// <summary>
+    /// Игрок-компьютер
+    /// </summary>
     class AiPlayer : IAiPlayer
     {
         public void ReportEnd(bool victory)
@@ -16,6 +19,7 @@ namespace CrossesZeroes
 
         public Point Turn(CrossesZeroesField field)
         {
+            //Перебор всех клеток в поиске свободных
             for (int i = 0; i < field.Size; i++)
                 for (int j = 0; j < 3; j++)
                     if (field[i, j] == CellState.Empty) return new(i, j);
