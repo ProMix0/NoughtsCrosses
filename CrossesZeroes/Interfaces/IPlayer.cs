@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="field">Текущее состояние поля</param>
         /// <returns>Точка, которая должна быть отмечена в результате хода</returns>
-        Point Turn(CrossesZeroesField field);
+        Point Turn(ICrossesZeroesField field);
 
         /// <summary>
         /// Метод, сообщающий игроку о завершении игры

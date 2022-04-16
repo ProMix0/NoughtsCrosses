@@ -22,16 +22,16 @@ namespace CrossesZeroes
             this.mark = mark;
         }
 
-        public Point Turn(CrossesZeroesField field)
+        public Point Turn(ICrossesZeroesField field)
         {
             Console.Clear();
 
             Console.WriteLine(mark == CellState.Cross ? "You are cross!" : "You are zero!");
 
             //Вывод поля в консоль
-            for(int i = 0; i < field.Size; i++)
+            for (int i = 0; i < field.Height; i++)
             {
-                for (int j = 0; j < field.Size; j++)
+                for (int j = 0; j < field.Width; j++)
                     Console.Write(field[i, j] switch
                     {
                         CellState.Empty => ' ',
@@ -42,7 +42,7 @@ namespace CrossesZeroes
                 Console.WriteLine();
             }
 
-            Console.WriteLine($"Enter turn coords (zero-based)\nMust be from 0 to {field.Size-1}\nAlso must be empty");
+            Console.WriteLine($"Enter turn coords (zero-based)\nMust be from 0 to {field.Height - 1} and from 0 to {field.Width - 1}\nAlso must be empty");
             //Ожидание ввода корректных координат хода
             while (true)
             {
@@ -50,8 +50,8 @@ namespace CrossesZeroes
                 if (strInput.Length >= 2)
                 {
                     int[] input = strInput.Take(2).Select(int.Parse).ToArray();
-                    if (input[0] >= 0 && input[0] < field.Size)
-                        if (input[1] >= 0 && input[1] < field.Size)
+                    if (input[0] >= 0 && input[0] < field.Height)
+                        if (input[1] >= 0 && input[1] < field.Width)
                             if (field[input[0], input[1]] == CellState.Empty)
                                 return new(input[0], input[1]);
                 }

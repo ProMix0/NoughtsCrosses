@@ -12,7 +12,7 @@ namespace CrossesZeroes
     class CrossesZeroesGame : CrossesZeroesAbstract
     {
         /// <inheritdoc/>
-        public CrossesZeroesGame(IPlayer player1, IPlayer player2, CrossesZeroesField field)
+        public CrossesZeroesGame(IPlayer player1, IPlayer player2, ICrossesZeroesField field)
             ///Вызов конструктора базового класса с параметрами
             : base(player1, player2, field)
         {

@@ -5,7 +5,7 @@ namespace CrossesZeroes
     /// <summary>
     /// Поле для крестиков-ноликов
     /// </summary>
-    public class CrossesZeroesField
+    public class CrossesZeroesField : ICrossesZeroesField
     {
         //Матрица клеток
         protected CellState[,] field = new CellState[3, 3];
@@ -26,10 +26,8 @@ namespace CrossesZeroes
             get => field[i, j];
         }
 
-        /// <summary>
-        /// Размер поля (квадрат)
-        /// </summary>
-        public virtual int Size { get; } = 3;
+        public int Width { get; } = 3;
+        public int Height { get; } = 3;
 
         /// <summary>
         /// Устанавливает состояние клетки поля
@@ -171,6 +169,6 @@ namespace CrossesZeroes
         /// Возвращает объект только для чтения
         /// </summary>
         /// <returns>Объект только для чтения</returns>
-        public virtual CrossesZeroesField AsReadonly() => @readonly.Value;
+        public virtual ICrossesZeroesField AsReadonly() => @readonly.Value;
     }
 }

@@ -11,7 +11,7 @@ namespace CrossesZeroes
     /// </summary>
     class CrossesZeroesWithAi : CrossesZeroesGame
     {
-        public CrossesZeroesWithAi(IRealPlayer player1, IAiPlayer player2, CrossesZeroesField field)
+        public CrossesZeroesWithAi(IRealPlayer player1, IAiPlayer player2, ICrossesZeroesField field)
             : base(player1, player2, field)
         {}
     }

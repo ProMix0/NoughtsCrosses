@@ -5,28 +5,36 @@ namespace CrossesZeroes
     /// <summary>
     /// Поле игры в крестики-нолики только для чтения
     /// </summary>
-    public sealed class ReadonlyField : CrossesZeroesField
+    public sealed class ReadonlyField : ICrossesZeroesField
     {
-        private readonly CrossesZeroesField proxied;
+        private readonly ICrossesZeroesField proxied;
 
         /// <summary>
         /// Создаёт новый экземпляр
         /// </summary>
         /// <param name="proxied">Замещаемый экземпляр</param>
-        public ReadonlyField(CrossesZeroesField proxied)
+        public ReadonlyField(ICrossesZeroesField proxied)
         {
             this.proxied = proxied;
         }
 
-        public override CellState this[int i, int j] => proxied[i, j];
+        public CellState this[int i, int j] => proxied[i, j];
 
-        public override int Size => proxied.Size;
+        public int Height => proxied.Height;
+        public int Width => proxied.Width;
 
-        public override void Set(Point point, CellState markType)
+        public void Set(Point point, CellState markType)
         {
             throw new InvalidOperationException();
         }
 
-        public override CrossesZeroesField AsReadonly() => this;
+        public ICrossesZeroesField AsReadonly() => this;
+
+        public void Clear()
+        {
+            throw new InvalidOperationException();
+        }
+
+        public bool IsEndGame(out CellState winner) => proxied.IsEndGame(out winner);
     }
 }

@@ -9,13 +9,13 @@ namespace CrossesZeroes
     /// <summary>
     /// Базовый класс для всех реализаций игры крестики-нолики
     /// </summary>
-    abstract class CrossesZeroesAbstract
+    abstract class CrossesZeroesAbstract : ICrossesZeroesGame
     {
         //Игроки
         protected IPlayer cross;
         protected IPlayer zero;
         //Поле
-        protected readonly CrossesZeroesField field;
+        protected readonly ICrossesZeroesField field;
 
         /// <summary>
         /// Конструктор, через который внедряются зависимости класса
@@ -23,7 +23,7 @@ namespace CrossesZeroes
         /// <param name="player1">Первый игрок</param>
         /// <param name="player2">Второй игрок</param>
         /// <param name="field">Поле</param>
-        public CrossesZeroesAbstract(IPlayer player1, IPlayer player2, CrossesZeroesField field)
+        public CrossesZeroesAbstract(IPlayer player1, IPlayer player2, ICrossesZeroesField field)
         {
             cross = player1;
             zero = player2;
