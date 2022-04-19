@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CrossesZeroes.Classes;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using System;
 
 namespace CrossesZeroes
@@ -10,19 +12,19 @@ namespace CrossesZeroes
         {
             CrossesZeroesAbstract game;
 
-            game = ManualCreating();
+            /*game = ManualCreating();
             //while (true)
             //{
             while (game.Turn()) ;
-            Console.ReadLine();
+            Console.ReadKey();
             //    game.Restart();
-            //}
+            //}*/
 
             game = DICreating();
             //while (true)
             //{
             while (game.Turn()) ;
-            Console.ReadLine();
+            Console.ReadKey();
             //    game.Restart();
             //}
         }
@@ -44,14 +46,24 @@ namespace CrossesZeroes
         {
             //Создание хоста
             IHost host = Host.CreateDefaultBuilder()
+                .ConfigureAppConfiguration(builder =>
+                    builder.AddJsonFile("Settings.json"))
                 //Добавление сервисов (классов)
-                .ConfigureServices(services =>
+                .ConfigureServices((context, services) =>
+
+                    //Позволят получить объект с настройками через DI
+                    services
+                    .AddOptions<CustomizableField.Configuration>()
+                    .BindConfiguration(CustomizableField.Configuration.SectionName)
+                    .Validate(CustomizableField.Configuration.Validate)
+                    .Services
+
                     //AddTransient добавляет в коллекцию сервисов класс
                     //Первое обобщение говорит о запрашиваемом классе, второе - о возвращаемом
-                    services.AddTransient<CrossesZeroesAbstract, CrossesZeroesWithAi>()
+                    .AddTransient<CrossesZeroesAbstract, CrossesZeroesWithAi>()
                     .AddTransient<IRealPlayer, ConsolePlayer>()
                     .AddTransient<IAiPlayer, AiPlayer>()
-                    .AddTransient<CrossesZeroesField>())
+                    .AddTransient<ICrossesZeroesField, CustomizableField>())
                 .Build();
 
             //Получение сервиса со всеми внедрёнными через конструктор класса зависимостями
