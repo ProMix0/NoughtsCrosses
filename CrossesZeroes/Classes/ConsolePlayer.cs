@@ -57,7 +57,7 @@ namespace CrossesZeroes
                 }
                 Console.CursorTop--;
                 Console.CursorLeft = 0;
-                Console.Write(new string(' ', Console.BufferWidth));
+                Console.Write(new string(' ', Console.BufferWidth-1));
                 Console.CursorLeft = 0;
             }
         }
