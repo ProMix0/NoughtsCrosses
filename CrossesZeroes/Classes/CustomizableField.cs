@@ -91,51 +91,75 @@ namespace CrossesZeroes.Classes
             return true;
         }
 
-        protected virtual IEnumerable<IEnumerable<Point>> WinIndexes()
+
+
+        protected virtual IEnumerable<IEnumerable<Point>> WinIndexes() => winIndexes ??= InternalWinIndexes();
+
+
+        private List<List<Point>> winIndexes = null;
+        private List<List<Point>> InternalWinIndexes()
         {
+            List<List<Point>> result = new();
+
             //Вертикальные
             for (int i = 0; i <= field.GetLength(0) - winSequenceLength; i++)
                 for (int j = 0; j < field.GetLength(1); j++)
-                    yield return GetCol(i, j);
+                    GetCol(i, j);
 
-            IEnumerable<Point> GetCol(int i, int j)
+            void GetCol(int i, int j)
             {
+                List<Point> temp = new();
+
                 for (int k = 0; k < winSequenceLength; k++)
-                    yield return new(i + k, j);
+                    temp.Add(new(i + k, j));
+
+                result.Add(temp);
             }
 
             //Горизонтальные
             for (int i = 0; i < field.GetLength(0); i++)
                 for (int j = 0; j <= field.GetLength(1) - winSequenceLength; j++)
-                    yield return GetRow(i, j);
+                    GetRow(i, j);
 
-            IEnumerable<Point> GetRow(int i, int j)
+            void GetRow(int i, int j)
             {
+                List<Point> temp = new();
+
                 for (int k = 0; k < winSequenceLength; k++)
-                    yield return new(i, j + k);
+                    temp.Add(new(i, j + k));
+
+                result.Add(temp);
             }
 
             //Диагональные возрастающие
             for (int i = winSequenceLength - 1; i < field.GetLength(0); i++)
                 for (int j = 0; j <= field.GetLength(1) - winSequenceLength; j++)
-                    yield return GetUpDiagonal(i, j);
+                    GetUpDiagonal(i, j);
 
-            IEnumerable<Point> GetUpDiagonal(int i, int j)
+            void GetUpDiagonal(int i, int j)
             {
+                List<Point> temp = new();
+
                 for (int k = 0; k < winSequenceLength; k++)
-                    yield return new(i - k, j + k);
+                    temp.Add(new(i - k, j + k));
+
+                result.Add(temp);
             }
 
             //Диагональные убывающие
             for (int i = 0; i <= field.GetLength(0) - winSequenceLength; i++)
                 for (int j = 0; j <= field.GetLength(1) - winSequenceLength; j++)
-                    yield return GetDownDiagonal(i, j);
+                    GetDownDiagonal(i, j);
 
-            IEnumerable<Point> GetDownDiagonal(int i, int j)
+            void GetDownDiagonal(int i, int j)
             {
+                List<Point> temp = new();
                 for (int k = 0; k < winSequenceLength; k++)
-                    yield return new(i + k, j + k);
+                    temp.Add(new(i + k, j + k));
+                result.Add(temp);
             }
+
+            return result;
         }
 
         public virtual void Set(Point point, CellState markType)
