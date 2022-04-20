@@ -18,7 +18,9 @@ namespace CrossesZeroes.Classes
         {
             Width = width > 0 ? width : throw new ArgumentException("Must be more than zero", nameof(width));
             Height = height > 0 ? height : throw new ArgumentException("Must be more than zero", nameof(height));
-            this.winSequenceLength = winSequenceLength > 0 ? winSequenceLength : throw new ArgumentException("Must be more than zero", nameof(winSequenceLength));
+            this.winSequenceLength = winSequenceLength > 0 ?
+                winSequenceLength : 
+                throw new ArgumentException("Must be more than zero", nameof(winSequenceLength));
 
             field = new CellState[height, width];
             readonlyField = new(this);
