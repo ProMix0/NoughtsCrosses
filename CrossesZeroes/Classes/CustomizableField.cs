@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CrossesZeroes.Classes
 {
-    class CustomizableField : ICrossesZeroesField
+    public class CustomizableField : ICrossesZeroesField
     {
 
         public CustomizableField(IOptions<Configuration> config)
@@ -27,7 +27,7 @@ namespace CrossesZeroes.Classes
         }
 
         public CellState this[int i, int j] => field[i, j];
-        private CellState[,] field;
+        protected CellState[,] field;
 
         public int Width { get; }
 
