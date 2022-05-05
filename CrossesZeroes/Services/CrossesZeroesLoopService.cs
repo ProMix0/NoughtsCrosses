@@ -23,12 +23,12 @@ namespace CrossesZeroes.Services
             {
                 while (!token.IsCancellationRequested)
                 {
-                    game.Restart();
-
                     while (!token.IsCancellationRequested && game.Turn()) ;
 
                     Console.WriteLine("Restart? (Y/N)");
                     if (Console.ReadKey().Key != ConsoleKey.Y) break;
+
+                    game.Restart();
                 }
             }, token);
         }
