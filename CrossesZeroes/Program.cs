@@ -34,7 +34,7 @@ namespace CrossesZeroes
                     .AddTransient<CrossesZeroesAbstract, CrossesZeroesWithAi>()
                     .AddTransient<IRealPlayer, ConsolePlayer>()
                     .AddTransient<IAiPlayer, AiPlayer>()
-                    .AddTransient<ICrossesZeroesField, CustomizableField>()
+                    .AddTransient<ICrossesZeroesField, ExtraCustomizableField>()
 
                     .AddHostedService<CrossesZeroesLoopService>())
 
