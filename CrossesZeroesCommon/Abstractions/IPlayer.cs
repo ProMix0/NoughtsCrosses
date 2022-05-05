@@ -1,4 +1,4 @@
-﻿namespace CrossesZeroes
+﻿namespace CrossesZeroes.Abstractions
 {
     /// <summary>
     /// Интерфейс игрока

@@ -1,4 +1,4 @@
-﻿namespace CrossesZeroes
+﻿namespace CrossesZeroes.Abstractions
 {
     interface ICrossesZeroesGame
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrossesZeroes
+namespace CrossesZeroes.Common
 {
     /// <summary>
     /// Перечисление, отражающее текущее состояние клетки игрового поля

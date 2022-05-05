@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrossesZeroes
+namespace CrossesZeroes.Abstractions
 {
     /// <summary>
     /// Базовый класс для всех реализаций игры крестики-нолики

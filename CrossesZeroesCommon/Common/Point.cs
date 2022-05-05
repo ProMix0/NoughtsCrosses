@@ -1,4 +1,4 @@
-﻿namespace CrossesZeroes
+﻿namespace CrossesZeroes.Common
 {
     /// <summary>
     /// Класс, представляющий координаты

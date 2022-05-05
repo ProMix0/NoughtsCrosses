@@ -12,6 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CrossesZeroesCommon\CrossesZeroesCommon.csproj" />
+    <ProjectReference Include="..\CrossesZeroesWpfClient\CrossesZeroesWpfClient.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
