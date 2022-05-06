@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CrossesZeroesCommon\CrossesZeroesCommon.csproj" />
-    <ProjectReference Include="..\CrossesZeroesWpfClient\CrossesZeroesWpfClient.csproj" />
   </ItemGroup>
 
   <ItemGroup>

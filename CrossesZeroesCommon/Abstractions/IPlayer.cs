@@ -1,4 +1,6 @@
-﻿namespace CrossesZeroes.Abstractions
+﻿using CrossesZeroes.Common;
+
+namespace CrossesZeroes.Abstractions
 {
     /// <summary>
     /// Интерфейс игрока

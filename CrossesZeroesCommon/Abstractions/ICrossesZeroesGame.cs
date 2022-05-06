@@ -1,6 +1,6 @@
 ﻿namespace CrossesZeroes.Abstractions
 {
-    interface ICrossesZeroesGame
+    public interface ICrossesZeroesGame
     {
         void Restart();
         bool Turn();

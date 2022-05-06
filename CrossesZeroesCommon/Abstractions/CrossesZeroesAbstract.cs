@@ -9,7 +9,7 @@ namespace CrossesZeroes.Abstractions
     /// <summary>
     /// Базовый класс для всех реализаций игры крестики-нолики
     /// </summary>
-    abstract class CrossesZeroesAbstract : ICrossesZeroesGame
+    public abstract class CrossesZeroesAbstract : ICrossesZeroesGame
     {
         //Игроки
         protected IPlayer cross;
