@@ -7,6 +7,7 @@ using System;
 using CrossesZeroes.Services;
 using System.Threading.Tasks;
 using CrossesZeroes.Abstractions;
+using WpfClient;
 
 namespace CrossesZeroes
 {
@@ -33,9 +34,12 @@ namespace CrossesZeroes
                     //AddTransient добавляет в коллекцию сервисов класс
                     //Первое обобщение говорит о запрашиваемом классе, второе - о возвращаемом
                     .AddTransient<CrossesZeroesAbstract, CrossesZeroesWithAi>()
-                    .AddTransient<IRealPlayer, ConsolePlayer>()
+                    .AddTransient<IRealPlayer, WpfPlayer>()
                     .AddTransient<IAiPlayer, AiPlayer>()
                     .AddTransient<ICrossesZeroesField, ExtraCustomizableField>()
+
+                    //TODO inject by single metod
+                    .AddTransient<WpfClient.WpfClient>()
 
                     .AddHostedService<CrossesZeroesLoopService>())
 

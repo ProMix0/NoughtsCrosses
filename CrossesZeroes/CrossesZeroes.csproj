@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CrossesZeroesCommon\CrossesZeroesCommon.csproj" />
+    <ProjectReference Include="..\WpfClient\WpfClient.csproj" />
   </ItemGroup>
 
   <ItemGroup>
