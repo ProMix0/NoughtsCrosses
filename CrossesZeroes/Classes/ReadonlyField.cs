@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CrossesZeroes.Abstractions;
+using CrossesZeroes.Common;
+using System;
 
 namespace CrossesZeroes
 {

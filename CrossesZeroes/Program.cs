@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using CrossesZeroes.Services;
 using System.Threading.Tasks;
+using CrossesZeroes.Abstractions;
 
 namespace CrossesZeroes
 {
@@ -25,9 +26,9 @@ namespace CrossesZeroes
                     //Позволят получить объект с настройками через DI
                     services
                     .AddOptions<CustomizableField.Configuration>()
-                    .BindConfiguration(CustomizableField.Configuration.SectionName)
-                    .Validate(CustomizableField.Configuration.Validate)
-                    .Services
+                        .BindConfiguration(CustomizableField.Configuration.SectionName)
+                        .Validate(CustomizableField.Configuration.Validate)
+                        .Services
 
                     //AddTransient добавляет в коллекцию сервисов класс
                     //Первое обобщение говорит о запрашиваемом классе, второе - о возвращаемом
@@ -38,7 +39,7 @@ namespace CrossesZeroes
 
                     .AddHostedService<CrossesZeroesLoopService>())
 
-                .ConfigureLogging(logging => 
+                .ConfigureLogging(logging =>
                     logging.ClearProviders())
 
                 .RunConsoleAsync();
