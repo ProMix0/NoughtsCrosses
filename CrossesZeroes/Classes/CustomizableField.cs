@@ -100,7 +100,7 @@ namespace CrossesZeroes.Classes
         protected virtual IEnumerable<IEnumerable<Point>> WinIndexes() => winIndexes ??= InternalWinIndexes();
 
 
-        private List<List<Point>> winIndexes = null;
+        private List<List<Point>>? winIndexes = null;
         private List<List<Point>> InternalWinIndexes()
         {
             List<List<Point>> result = new();

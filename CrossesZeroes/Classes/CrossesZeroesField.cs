@@ -2,7 +2,7 @@
 using CrossesZeroes.Common;
 using System;
 
-namespace CrossesZeroes
+namespace CrossesZeroes.Classes
 {
     /// <summary>
     /// Поле для крестиков-ноликов

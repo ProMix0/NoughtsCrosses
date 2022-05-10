@@ -6,29 +6,53 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrossesZeroes
+namespace CrossesZeroes.Classes
 {
     /// <summary>
     /// Представление физического игрока для вывода в консоль
     /// </summary>
-    class ConsolePlayer : IRealPlayer
+    public class ConsolePlayer : IRealPlayer
     {
-        public void ReportEnd(bool victory)
+        public void ReportEnd(bool victory, ICrossesZeroesField field)
         {
-            Console.WriteLine(victory ? "You win!" : "You lose...");
+            PrintField(field, victory ? "You win!" : "You lose...");
         }
 
         private CellState mark;
-        public void SetMark(CellState mark)
+        public void Init(CellState mark)
         {
             this.mark = mark;
         }
 
-        public Point Turn(ICrossesZeroesField field)
+        public Task<Point> Turn(ICrossesZeroesField field)
+        {
+            PrintField(field, mark == CellState.Cross ? "You are cross!" : "You are zero!");
+
+            Console.WriteLine($"Enter turn coords (zero-based)\nMust be from 0 to {field.Height - 1} and from 0 to {field.Width - 1}\nAlso must be empty");
+            //Ожидание ввода корректных координат хода
+            while (true)
+            {
+                string[] strInput = Console.ReadLine()!.Split();
+                if (strInput.Length >= 2)
+                {
+                    int[] input = strInput.Take(2).Select(int.Parse).ToArray();
+                    if (input[0] >= 0 && input[0] < field.Height)
+                        if (input[1] >= 0 && input[1] < field.Width)
+                            if (field[input[0], input[1]] == CellState.Empty)
+                                return Task.FromResult(new Point(input[0], input[1]));
+                }
+                Console.CursorTop--;
+                Console.CursorLeft = 0;
+                Console.Write(new string(' ', Console.BufferWidth - 1));
+                Console.CursorLeft = 0;
+            }
+        }
+
+        private void PrintField(ICrossesZeroesField field, string header = "")
         {
             Console.Clear();
 
-            Console.WriteLine(mark == CellState.Cross ? "You are cross!" : "You are zero!");
+            Console.WriteLine(header);
 
             //Вывод поля в консоль
             for (int i = 0; i < field.Height; i++)
@@ -43,25 +67,12 @@ namespace CrossesZeroes
                     });
                 Console.WriteLine();
             }
+        }
 
-            Console.WriteLine($"Enter turn coords (zero-based)\nMust be from 0 to {field.Height - 1} and from 0 to {field.Width - 1}\nAlso must be empty");
-            //Ожидание ввода корректных координат хода
-            while (true)
-            {
-                string[] strInput = Console.ReadLine().Split();
-                if (strInput.Length >= 2)
-                {
-                    int[] input = strInput.Take(2).Select(int.Parse).ToArray();
-                    if (input[0] >= 0 && input[0] < field.Height)
-                        if (input[1] >= 0 && input[1] < field.Width)
-                            if (field[input[0], input[1]] == CellState.Empty)
-                                return new(input[0], input[1]);
-                }
-                Console.CursorTop--;
-                Console.CursorLeft = 0;
-                Console.Write(new string(' ', Console.BufferWidth-1));
-                Console.CursorLeft = 0;
-            }
+        public Task<bool> IsRepeatWanted()
+        {
+            Console.WriteLine("Restart? (Y/N)");
+            return Task.FromResult(Console.ReadKey().Key == ConsoleKey.Y);
         }
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Интерфейс игрока, управляемого ИИ. Используется только для DI
     /// </summary>
-    public interface IAiPlayer:IPlayer
+    public interface IAiPlayer : IPlayer
     {
     }
 }

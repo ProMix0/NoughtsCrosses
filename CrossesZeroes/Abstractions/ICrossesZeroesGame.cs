@@ -3,6 +3,7 @@
     public interface ICrossesZeroesGame
     {
         void Restart();
-        bool Turn();
+        Task<bool> Turn();
+        Task<bool> IsRestartWanted();
     }
 }

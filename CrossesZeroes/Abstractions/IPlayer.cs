@@ -12,18 +12,20 @@ namespace CrossesZeroes.Abstractions
         /// </summary>
         /// <param name="field">Текущее состояние поля</param>
         /// <returns>Точка, которая должна быть отмечена в результате хода</returns>
-        Point Turn(ICrossesZeroesField field);
+        Task<Point> Turn(ICrossesZeroesField field);
+
+        Task<bool> IsRepeatWanted();
 
         /// <summary>
         /// Метод, сообщающий игроку о завершении игры
         /// </summary>
         /// <param name="victory">Победил ли данный игрок</param>
-        void ReportEnd(bool victory);
+        void ReportEnd(bool victory, ICrossesZeroesField field);
 
         /// <summary>
         /// Ставит знак хода для игрока (крестик или нолик)
         /// </summary>
         /// <param name="mark">Вид знака</param>
-        void SetMark(CellState mark);
+        void Init(CellState mark);
     }
 }

@@ -39,6 +39,12 @@ namespace CrossesZeroes.Abstractions
         /// Метод хода в игре. Позволяет сделать ход каждому из участников
         /// </summary>
         /// <returns>Возможны ли дальнейшие ходы</returns>
-        public abstract bool Turn();
+        public abstract Task<bool> Turn();
+
+        public virtual async Task<bool> IsRestartWanted()
+        {
+            Task<bool> task = cross.IsRepeatWanted();
+            return await zero.IsRepeatWanted() && await task;
+        }
     }
 }

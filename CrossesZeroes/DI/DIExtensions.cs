@@ -1,23 +1,22 @@
 ﻿using CrossesZeroes.Classes;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
-using CrossesZeroes.Services;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using CrossesZeroes.Services;
 using CrossesZeroes.Abstractions;
-using WpfClient;
 
-namespace CrossesZeroes
+namespace CrossesZeroes.DI
 {
-    class Program
+    public static class DIExtensions
     {
-        static async Task Main(string[] args)
-        {
-            //Создание хоста
-            await Host.CreateDefaultBuilder()
-
+        public static IHostBuilder AddCrossesZeroesGame(this IHostBuilder builder) =>
+            builder
                 .ConfigureAppConfiguration(config =>
                     config.AddJsonFile("Settings.json"))
 
@@ -34,20 +33,16 @@ namespace CrossesZeroes
                     //AddTransient добавляет в коллекцию сервисов класс
                     //Первое обобщение говорит о запрашиваемом классе, второе - о возвращаемом
                     .AddTransient<CrossesZeroesAbstract, CrossesZeroesWithAi>()
-                    .AddTransient<IRealPlayer, WpfPlayer>()
+                    //.AddTransient<IRealPlayer, WpfPlayer>()
                     .AddTransient<IAiPlayer, AiPlayer>()
                     .AddTransient<ICrossesZeroesField, ExtraCustomizableField>()
 
                     //TODO inject by single metod
-                    .AddTransient<WpfClient.WpfClient>()
+                    //.AddTransient<WpfClient.WpfClient>()
 
                     .AddHostedService<CrossesZeroesLoopService>())
 
                 .ConfigureLogging(logging =>
-                    logging.ClearProviders())
-
-                .RunConsoleAsync();
-            //TODO shutdown after all workers done
-        }
+                    logging.ClearProviders());
     }
 }

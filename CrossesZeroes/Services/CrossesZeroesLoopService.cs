@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CrossesZeroes.Services
 {
-    internal class CrossesZeroesLoopService : BackgroundService
+    public class CrossesZeroesLoopService : BackgroundService
     {
         private readonly CrossesZeroesAbstract game;
 
@@ -18,20 +18,17 @@ namespace CrossesZeroes.Services
             this.game = game;
         }
 
-        protected override Task ExecuteAsync(CancellationToken token)
+        protected async override Task ExecuteAsync(CancellationToken token)
         {
-            return Task.Run(() =>
+            while (!token.IsCancellationRequested)
             {
-                while (!token.IsCancellationRequested)
-                {
-                    while (!token.IsCancellationRequested && game.Turn()) ;
+                while (!token.IsCancellationRequested && await game.Turn())
+                    token.ThrowIfCancellationRequested();
 
-                    Console.WriteLine("Restart? (Y/N)");
-                    if (Console.ReadKey().Key != ConsoleKey.Y) break;
+                if (!await game.IsRestartWanted()) break;
 
-                    game.Restart();
-                }
-            }, token);
+                game.Restart();
+            }
         }
     }
 }

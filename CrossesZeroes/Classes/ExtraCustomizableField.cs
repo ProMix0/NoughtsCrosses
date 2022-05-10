@@ -65,7 +65,7 @@ namespace CrossesZeroes.Classes
             }
         }
 
-        private Point LastPoint => lastPoint.Value;
+        private Point LastPoint => lastPoint!.Value;
         private Point? lastPoint = null;
         public override void Set(Point point, CellState markType)
         {

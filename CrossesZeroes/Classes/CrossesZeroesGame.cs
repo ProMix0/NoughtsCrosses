@@ -6,33 +6,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrossesZeroes
+namespace CrossesZeroes.Classes
 {
     /// <summary>
     /// Реализация игры крестики-нолики
     /// </summary>
-    class CrossesZeroesGame : CrossesZeroesAbstract
+    public class CrossesZeroesGame : CrossesZeroesAbstract
     {
         /// <inheritdoc/>
         public CrossesZeroesGame(IPlayer player1, IPlayer player2, ICrossesZeroesField field)
             ///Вызов конструктора базового класса с параметрами
             : base(player1, player2, field)
         {
-            cross.SetMark(CellState.Cross);
-            zero.SetMark(CellState.Zero);
+            cross.Init(CellState.Cross);
+            zero.Init(CellState.Zero);
         }
 
         private bool gameCompleted = false;
 
         /// <inheritdoc/>
-        public override bool Turn()
+        public async override Task<bool >Turn()
         {
             if (gameCompleted) return false;
-            field.Set(cross.Turn(field.AsReadonly()), CellState.Cross);
+            field.Set(await cross.Turn(field.AsReadonly()), CellState.Cross);
             CheckWin();
 
             if (gameCompleted) return false;
-            field.Set(zero.Turn(field.AsReadonly()), CellState.Zero);
+            field.Set(await zero.Turn(field.AsReadonly()), CellState.Zero);
             CheckWin();
 
             return true;
@@ -45,18 +45,18 @@ namespace CrossesZeroes
                     switch (winner)
                     {
                         case CellState.Empty:
-                            cross.ReportEnd(false);
-                            zero.ReportEnd(false);
+                            cross.ReportEnd(false, field);
+                            zero.ReportEnd(false, field);
                             gameCompleted = true;
                             break;
                         case CellState.Cross:
-                            cross.ReportEnd(true);
-                            zero.ReportEnd(false);
+                            cross.ReportEnd(true, field);
+                            zero.ReportEnd(false, field);
                             gameCompleted = true;
                             break;
                         case CellState.Zero:
-                            cross.ReportEnd(false);
-                            zero.ReportEnd(true);
+                            cross.ReportEnd(false, field);
+                            zero.ReportEnd(true, field);
                             gameCompleted = true;
                             break;
                     }
@@ -73,8 +73,8 @@ namespace CrossesZeroes
             cross = zero;
             zero = temp;
 
-            cross.SetMark(CellState.Cross);
-            zero.SetMark(CellState.Zero);
+            cross.Init(CellState.Cross);
+            zero.Init(CellState.Zero);
 
             field.Clear();
         }

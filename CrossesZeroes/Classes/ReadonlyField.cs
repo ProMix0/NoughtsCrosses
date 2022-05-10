@@ -2,7 +2,7 @@
 using CrossesZeroes.Common;
 using System;
 
-namespace CrossesZeroes
+namespace CrossesZeroes.Classes
 {
     /// <summary>
     /// Поле игры в крестики-нолики только для чтения
