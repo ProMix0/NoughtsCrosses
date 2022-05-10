@@ -15,13 +15,21 @@ using System.Windows.Shapes;
 namespace WpfClient
 {
     /// <summary>
-    /// Логика взаимодействия для WpfClient.xaml
+    /// Логика взаимодействия для RepeatDialog.xaml
     /// </summary>
-    public partial class WpfClient : Window
+    public partial class RepeatDialog : Window
     {
-        public WpfClient()
+        public RepeatDialog()
         {
             InitializeComponent();
         }
+        private void Ok(object sender, RoutedEventArgs e) =>
+            DialogResult = true;
+
+        private void Cancel(object sender, RoutedEventArgs e) =>
+            DialogResult = false;
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) =>
+            DialogResult = false;
     }
 }

@@ -1,6 +1,9 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using CrossesZeroes.Abstractions;
 using CrossesZeroes.Common;
 
@@ -8,23 +11,47 @@ namespace WpfClient
 {
     public class WpfPlayer : IRealPlayer
     {
-        private readonly WpfClient client;
+        private IWpfView? client;
+        Thread windowThread;
 
-        protected int width = 0, height = 0;
         protected Button[,]? btnMatr = null;
         protected TaskCompletionSource<Button>? btnCompletionSource = null;
 
-        public WpfPlayer(WpfClient client)
+        public WpfPlayer()
         {
-            this.client = client;
+            // Create a thread
+            windowThread = new(new ThreadStart(() =>
+            {
+                // Create and show the Window
+                WpfView view = new();
+                client = view;
+
+                Window tempWindow = view;
+
+                tempWindow.Show();
+
+                tempWindow.Closed += (_, _) =>
+                    Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
+                Dispatcher.Run();
+            }));
+            windowThread.SetApartmentState(ApartmentState.STA);
+            windowThread.IsBackground = true;
+            windowThread.Start();
+
+
+            while (client == null) Thread.Sleep(10);
+
+            Console.WriteLine("Client isn't null");
         }
 
-        public void ReportEnd(bool victory)
+        public void ReportEnd(bool victory, ICrossesZeroesField field)
         {
-            client.stateLine.Text = $"You {(victory ? "win" : "lose")}!";
+            Dispatcher.FromThread(windowThread).Invoke(() =>
+                client!.StateLine.Text = $"You {(victory ? "win" : "lose")}!");
+            PrintField(field);
         }
 
-        public void SetMark(CellState mark)
+        public void Init(CellState mark)
         {
             string markStr = mark switch
             {
@@ -33,24 +60,26 @@ namespace WpfClient
                 _ => ""
             };
 
-            client.stateLine.Text = $"You are {markStr}";
+            Dispatcher.FromThread(windowThread).Invoke(() =>
+            client!.StateLine.Text = $"You are {markStr}");
+
+            if (btnMatr != null)
+                Dispatcher.FromThread(windowThread).Invoke(() =>
+                {
+                    for (int i = 0; i < btnMatr!.GetLength(0); i++)
+                        for (int j = 0; j < btnMatr!.GetLength(1); j++)
+                            btnMatr![i, j].Content = ' ';
+                });
         }
 
-        public Point Turn(ICrossesZeroesField field)
+        public async Task<CrossesZeroes.Common.Point> Turn(ICrossesZeroesField field)
         {
             EnsureGridSize(field.Height, field.Width);
-
-            for (int i = 0; i < field.Height; i++)
-                for (int j = 0; j < field.Width; j++)
-                    btnMatr![i, j].Content = field[i, j] switch
-                    {
-                        CellState.Cross => 'X',
-                        CellState.Zero => '0',
-                        _ => ' '
-                    };
+            PrintField(field);
 
             btnCompletionSource = new();
-            Button button = btnCompletionSource.Task.Result;
+            Button button = await btnCompletionSource.Task;
+            btnCompletionSource = null;
 
             for (int i = 0; i < field.Height; i++)
                 for (int j = 0; j < field.Width; j++)
@@ -60,39 +89,64 @@ namespace WpfClient
             throw new Exception("Button outside field");
         }
 
-        protected void EnsureGridSize(int height, int width)
+        private void PrintField(ICrossesZeroesField field)
         {
-            if (height == this.height && width == this.width) return;
-
-            Grid grid = new();
-            client.field = grid;
-            btnMatr = new Button[height, width];
-
-            for (int i = 0; i < height; i++)
-                grid.RowDefinitions.Add(new());
-            for (int i = 0; i < width; i++)
-                grid.ColumnDefinitions.Add(new());
-
-            for (int i = 0; i < height; i++)
-                for (int j = 0; j < width; j++)
-                {
-                    Button button = new();
-
-                    Grid.SetRow(button, i);
-                    Grid.SetColumn(button, j);
-
-                    button.Click += ButtonClick;
-
-                    btnMatr[i, j] = button;
-                    grid.Children.Add(button);
-                }
+            Dispatcher.FromThread(windowThread).Invoke(() =>
+            {
+                for (int i = 0; i < field.Height; i++)
+                    for (int j = 0; j < field.Width; j++)
+                        btnMatr![i, j].Content = field[i, j] switch
+                        {
+                            CellState.Cross => 'X',
+                            CellState.Zero => '0',
+                            _ => ' '
+                        };
+            });
         }
 
-        protected void ButtonClick(object sender, System.Windows.RoutedEventArgs e)
+        protected void EnsureGridSize(int height, int width)
+        {
+            if (btnMatr != null && height == btnMatr!.GetLength(0) && width == btnMatr!.GetLength(1)) return;
+
+            Dispatcher.FromThread(windowThread).Invoke(() =>
+            {
+                Grid grid = client!.Field;
+                btnMatr = new Button[height, width];
+
+                for (int i = 0; i < height; i++)
+                    grid.RowDefinitions.Add(new());
+                for (int i = 0; i < width; i++)
+                    grid.ColumnDefinitions.Add(new());
+
+                for (int i = 0; i < height; i++)
+                    for (int j = 0; j < width; j++)
+                    {
+                        Button button = new();
+
+                        Grid.SetRow(button, i);
+                        Grid.SetColumn(button, j);
+
+                        button.Click += ButtonClick;
+
+                        btnMatr[i, j] = button;
+                        grid.Children.Add(button);
+                    }
+            });
+        }
+
+        protected void ButtonClick(object sender, RoutedEventArgs e)
         {
             if (btnCompletionSource == null) return;
 
-            btnCompletionSource.SetResult((sender as Button)!);
+            btnCompletionSource.TrySetResult((sender as Button)!);
+        }
+
+        public Task<bool> IsRepeatWanted()
+        {
+            Window dialog = new RepeatDialog();
+            dialog.Show();
+
+            return Task.FromResult(dialog.DialogResult!.Value);
         }
     }
 }
