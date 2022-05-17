@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:WpfClient"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Closing="Window_Closing"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterOwner" 
         Title="RepeatDialog" SizeToContent="WidthAndHeight">

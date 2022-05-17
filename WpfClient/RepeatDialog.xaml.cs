@@ -28,8 +28,5 @@ namespace WpfClient
 
         private void Cancel(object sender, RoutedEventArgs e) =>
             DialogResult = false;
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) =>
-            DialogResult = false;
     }
 }

@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CrossesZeroesCommon\CrossesZeroes.csproj" />
+    <ProjectReference Include="..\CrossesZeroes\CrossesZeroes.csproj" />
     <ProjectReference Include="..\WpfClient\WpfClient.csproj" />
   </ItemGroup>
 

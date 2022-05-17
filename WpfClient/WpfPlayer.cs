@@ -143,10 +143,18 @@ namespace WpfClient
 
         public Task<bool> IsRepeatWanted()
         {
-            Window dialog = new RepeatDialog();
-            dialog.Show();
+            TaskCompletionSource<bool> completion = new();
 
-            return Task.FromResult(dialog.DialogResult!.Value);
+            Dispatcher.FromThread(windowThread).InvokeAsync(() =>
+            {
+                Window dialog = new RepeatDialog();
+                dialog.Owner = client as Window;
+
+                bool value = dialog.ShowDialog()!.Value;
+                completion.SetResult(value);
+            });
+
+            return completion.Task;
         }
     }
 }
