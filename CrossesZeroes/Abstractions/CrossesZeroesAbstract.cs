@@ -43,8 +43,9 @@ namespace CrossesZeroes.Abstractions
 
         public virtual async Task<bool> IsRestartWanted()
         {
-            Task<bool> task = cross.IsRepeatWanted();
-            return await zero.IsRepeatWanted() && await task;
+            Task<bool> crossTask = cross.IsRepeatWanted();
+            Task<bool> zeroTask = zero.IsRepeatWanted();
+            return await zeroTask & await crossTask;
         }
     }
 }

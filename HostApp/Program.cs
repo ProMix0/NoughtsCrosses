@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using WpfClient;
 
 await Host.CreateDefaultBuilder()
@@ -32,6 +33,10 @@ await Host.CreateDefaultBuilder()
 
         //TODO inject by single metod
         //.AddTransient<IWpfView, WpfView>()
+        .AddTransient(_ => Options.Create(new AiPlayer.AiPlayerBehaviour()
+        {
+            wantRepeat = true
+        }))
 
         .AddHostedService<CrossesZeroesLoopService>())
 
