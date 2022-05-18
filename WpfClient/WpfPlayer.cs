@@ -41,7 +41,7 @@ namespace WpfClient
 
             while (client == null) Thread.Sleep(10);
 
-            Console.WriteLine("Client isn't null");
+            //Console.WriteLine("Client isn't null");
         }
 
         public void ReportEnd(bool victory, ICrossesZeroesField field)

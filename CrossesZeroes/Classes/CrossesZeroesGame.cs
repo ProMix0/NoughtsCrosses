@@ -25,7 +25,7 @@ namespace CrossesZeroes.Classes
         private bool gameCompleted = false;
 
         /// <inheritdoc/>
-        public async override Task<bool >Turn()
+        public async override Task<bool> Turn()
         {
             if (gameCompleted) return false;
             field.Set(await cross.Turn(field.AsReadonly()), CellState.Cross);
@@ -69,9 +69,7 @@ namespace CrossesZeroes.Classes
             gameCompleted = false;
 
             //Смена знака игроков
-            IPlayer temp = cross;
-            cross = zero;
-            zero = temp;
+            (zero, cross) = (cross, zero);
 
             cross.Init(CellState.Cross);
             zero.Init(CellState.Zero);

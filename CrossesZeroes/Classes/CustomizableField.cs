@@ -168,8 +168,8 @@ namespace CrossesZeroes.Classes
 
         public virtual void Set(Point point, CellState markType)
         {
-            if (markType == CellState.Empty) throw new ArgumentException("", nameof(markType));
-            if (field[point.x, point.y] != CellState.Empty) throw new ArgumentException("", nameof(point));
+            if (markType == CellState.Empty) throw new ArgumentException("Unknown type of mark", nameof(markType));
+            if (field[point.x, point.y] != CellState.Empty) throw new ArgumentException("Cell already filled", nameof(point));
 
             field[point.x, point.y] = markType;
         }

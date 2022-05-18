@@ -10,7 +10,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using WpfClient;
 
-await Host.CreateDefaultBuilder()
+Console.WriteLine("Building host");
+
+IHost host = Host.CreateDefaultBuilder()
     .ConfigureAppConfiguration(config =>
         config.AddJsonFile("Settings.json"))
 
@@ -43,4 +45,12 @@ await Host.CreateDefaultBuilder()
     .ConfigureLogging(logging =>
         logging.ClearProviders())
 
-    .RunConsoleAsync();
+    .UseConsoleLifetime()
+
+    .Build();
+
+Console.WriteLine("Running host");
+
+await host.RunAsync();
+
+Console.WriteLine("Host shut down");
