@@ -15,6 +15,7 @@ namespace CrossesZeroes.Classes
     public class AiPlayer : IAiPlayer
     {
         private readonly AiPlayerBehaviour behaviour;
+        private ICrossesZeroesField field;
 
         public AiPlayer()
             : this(Options.Create(new AiPlayerBehaviour()
@@ -30,13 +31,15 @@ namespace CrossesZeroes.Classes
             this.behaviour = behaviour.Value;
         }
 
-        public void ReportEnd(bool victory, ICrossesZeroesField field)
+        public void ReportEnd(bool victory)
         { }
 
-        public void Init(CellState mark)
-        { }
+        public void Init(CellState mark, ICrossesZeroesField field)
+        {
+            this.field = field;
+        }
 
-        public Task<Point> Turn(ICrossesZeroesField field)
+        public Task<Point> Turn()
         {
             //Перебор всех клеток в поиске свободных
             for (int i = 0; i < field.Height; i++)
@@ -48,6 +51,11 @@ namespace CrossesZeroes.Classes
 
         public Task<bool> IsRepeatWanted() =>
             Task.FromResult(behaviour.wantRepeat);
+
+        public void NotifyFieldChange(Point point)
+        {
+            //throw new NotImplementedException();
+        }
 
         public class AiPlayerBehaviour
         {

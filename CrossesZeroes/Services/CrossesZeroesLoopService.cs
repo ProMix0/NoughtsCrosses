@@ -22,18 +22,31 @@ namespace CrossesZeroes.Services
 
         protected async override Task ExecuteAsync(CancellationToken token)
         {
-            while (!token.IsCancellationRequested)
+            try
             {
-                while (!token.IsCancellationRequested && await game.Turn())
-                    token.ThrowIfCancellationRequested();
+                while (!token.IsCancellationRequested)
+                {
+                    while (!token.IsCancellationRequested && await game.Turn())
+                        token.ThrowIfCancellationRequested();
 
-                bool restart = await game.IsRestartWanted();
-                if (!restart) break;
+                    bool restart = await game.IsRestartWanted();
+                    if (!restart) break;
 
-                game.Restart();
+                    game.Restart();
+                }
+
+                await lifetime.StopAsync(token);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.GetType());
+                Console.WriteLine();
 
-            await lifetime.StopAsync(token);
+                Console.WriteLine(ex.Message);
+                Console.WriteLine();
+
+                Console.WriteLine(ex.StackTrace);
+            }
         }
     }
 }

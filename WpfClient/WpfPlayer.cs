@@ -17,6 +17,8 @@ namespace WpfClient
         protected Button[,]? btnMatr = null;
         protected TaskCompletionSource<Button>? btnCompletionSource = null;
 
+        private ICrossesZeroesField field;
+
         public WpfPlayer()
         {
             // Create a thread
@@ -44,15 +46,17 @@ namespace WpfClient
             //Console.WriteLine("Client isn't null");
         }
 
-        public void ReportEnd(bool victory, ICrossesZeroesField field)
+        public void ReportEnd(bool victory)
         {
             Dispatcher.FromThread(windowThread).Invoke(() =>
                 client!.StateLine.Text = $"You {(victory ? "win" : "lose")}!");
-            PrintField(field);
+            //PrintField(field);
         }
 
-        public void Init(CellState mark)
+        public void Init(CellState mark, ICrossesZeroesField field)
         {
+            this.field = field;
+
             string markStr = mark switch
             {
                 CellState.Cross => "cross",
@@ -68,14 +72,17 @@ namespace WpfClient
                 {
                     for (int i = 0; i < btnMatr!.GetLength(0); i++)
                         for (int j = 0; j < btnMatr!.GetLength(1); j++)
+                        {
                             btnMatr![i, j].Content = ' ';
+                            btnMatr![i, j].IsEnabled = true;
+                        }
                 });
         }
 
-        public async Task<CrossesZeroes.Common.Point> Turn(ICrossesZeroesField field)
+        public async Task<CrossesZeroes.Common.Point> Turn()
         {
             EnsureGridSize(field.Height, field.Width);
-            PrintField(field);
+            //PrintField(field);
 
             btnCompletionSource = new();
             Button button = await btnCompletionSource.Task;
@@ -138,7 +145,11 @@ namespace WpfClient
         {
             if (btnCompletionSource == null) return;
 
-            btnCompletionSource.TrySetResult((sender as Button)!);
+            Button button = (sender as Button)!;
+
+            btnCompletionSource.TrySetResult(button);
+
+            button.IsEnabled = false;
         }
 
         public Task<bool> IsRepeatWanted()
@@ -147,14 +158,31 @@ namespace WpfClient
 
             Dispatcher.FromThread(windowThread).InvokeAsync(() =>
             {
-                Window dialog = new RepeatDialog();
-                dialog.Owner = client as Window;
+                Window dialog = new RepeatDialog
+                {
+                    Owner = client as Window
+                };
 
                 bool value = dialog.ShowDialog()!.Value;
                 completion.SetResult(value);
             });
 
             return completion.Task;
+        }
+
+        public void NotifyFieldChange(CrossesZeroes.Common.Point point)
+        {
+            Dispatcher.FromThread(windowThread).Invoke(() =>
+            {
+                int i = point.x, j = point.y;
+                btnMatr![i, j].Content = field[i, j] switch
+                {
+                    CellState.Cross => 'X',
+                    CellState.Zero => '0',
+                    _ => ' '
+                };
+                btnMatr![i, j].IsEnabled = false;
+            });
         }
     }
 }

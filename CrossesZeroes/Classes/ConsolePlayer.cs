@@ -13,20 +13,23 @@ namespace CrossesZeroes.Classes
     /// </summary>
     public class ConsolePlayer : IRealPlayer
     {
-        public void ReportEnd(bool victory, ICrossesZeroesField field)
+        private ICrossesZeroesField field;
+
+        public void ReportEnd(bool victory)
         {
-            PrintField(field, victory ? "You win!" : "You lose...");
+            PrintField(victory ? "You win!" : "You lose...");
         }
 
         private CellState mark;
-        public void Init(CellState mark)
+        public void Init(CellState mark,ICrossesZeroesField field)
         {
             this.mark = mark;
+            this.field = field;
         }
 
-        public Task<Point> Turn(ICrossesZeroesField field)
+        public Task<Point> Turn()
         {
-            PrintField(field, mark == CellState.Cross ? "You are cross!" : "You are zero!");
+            PrintField(mark == CellState.Cross ? "You are cross!" : "You are zero!");
 
             Console.WriteLine($"Enter turn coords (zero-based)\nMust be from 0 to {field.Height - 1} and from 0 to {field.Width - 1}\nAlso must be empty");
             //Ожидание ввода корректных координат хода
@@ -48,7 +51,7 @@ namespace CrossesZeroes.Classes
             }
         }
 
-        private void PrintField(ICrossesZeroesField field, string header = "")
+        private void PrintField(string header = "")
         {
             Console.Clear();
 
@@ -73,6 +76,11 @@ namespace CrossesZeroes.Classes
         {
             Console.WriteLine("Restart? (Y/N)");
             return Task.FromResult(Console.ReadKey().Key == ConsoleKey.Y);
+        }
+
+        public void NotifyFieldChange(Point point)
+        {
+            PrintField();
         }
     }
 }

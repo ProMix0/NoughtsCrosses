@@ -18,8 +18,8 @@ namespace CrossesZeroes.Classes
             ///Вызов конструктора базового класса с параметрами
             : base(player1, player2, field)
         {
-            cross.Init(CellState.Cross);
-            zero.Init(CellState.Zero);
+            cross.Init(CellState.Cross, field.AsReadonly());
+            zero.Init(CellState.Zero, field.AsReadonly());
         }
 
         private bool gameCompleted = false;
@@ -28,11 +28,17 @@ namespace CrossesZeroes.Classes
         public async override Task<bool> Turn()
         {
             if (gameCompleted) return false;
-            field.Set(await cross.Turn(field.AsReadonly()), CellState.Cross);
+            Point turnResult = await cross.Turn();
+            field.Set(turnResult, CellState.Cross);
+            zero.NotifyFieldChange(turnResult);
+            cross.NotifyFieldChange(turnResult);
             CheckWin();
 
             if (gameCompleted) return false;
-            field.Set(await zero.Turn(field.AsReadonly()), CellState.Zero);
+            turnResult = await zero.Turn();
+            field.Set(turnResult, CellState.Zero);
+            cross.NotifyFieldChange(turnResult);
+            zero.NotifyFieldChange(turnResult);
             CheckWin();
 
             return true;
@@ -45,18 +51,18 @@ namespace CrossesZeroes.Classes
                     switch (winner)
                     {
                         case CellState.Empty:
-                            cross.ReportEnd(false, field);
-                            zero.ReportEnd(false, field);
+                            cross.ReportEnd(false);
+                            zero.ReportEnd(false);
                             gameCompleted = true;
                             break;
                         case CellState.Cross:
-                            cross.ReportEnd(true, field);
-                            zero.ReportEnd(false, field);
+                            cross.ReportEnd(true);
+                            zero.ReportEnd(false);
                             gameCompleted = true;
                             break;
                         case CellState.Zero:
-                            cross.ReportEnd(false, field);
-                            zero.ReportEnd(true, field);
+                            cross.ReportEnd(false);
+                            zero.ReportEnd(true);
                             gameCompleted = true;
                             break;
                     }
@@ -71,8 +77,8 @@ namespace CrossesZeroes.Classes
             //Смена знака игроков
             (zero, cross) = (cross, zero);
 
-            cross.Init(CellState.Cross);
-            zero.Init(CellState.Zero);
+            cross.Init(CellState.Cross, field.AsReadonly());
+            zero.Init(CellState.Zero, field.AsReadonly());
 
             field.Clear();
         }
