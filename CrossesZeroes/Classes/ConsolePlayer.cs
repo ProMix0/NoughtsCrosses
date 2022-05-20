@@ -11,6 +11,7 @@ namespace CrossesZeroes.Classes
     /// <summary>
     /// Представление физического игрока для вывода в консоль
     /// </summary>
+    [Obsolete]
     public class ConsolePlayer : IRealPlayer
     {
         private ICrossesZeroesField field;
@@ -21,7 +22,7 @@ namespace CrossesZeroes.Classes
         }
 
         private CellState mark;
-        public void Init(CellState mark,ICrossesZeroesField field)
+        public void Init(CellState mark, ICrossesZeroesField field)
         {
             this.mark = mark;
             this.field = field;
