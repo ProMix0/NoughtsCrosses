@@ -1,5 +1,6 @@
 ﻿using CrossesZeroes.Abstractions;
 using CrossesZeroes.Common;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace CrossesZeroes.Classes
@@ -12,9 +13,10 @@ namespace CrossesZeroes.Classes
         //Матрица клеток
         protected CellState[,] field = new CellState[3, 3];
 
-        public CrossesZeroesField()
+        public CrossesZeroesField(ILogger<CrossesZeroesField> logger)
         {
             @readonly = new(() => new(this));
+            this.logger = logger;
         }
 
         /// <summary>
@@ -38,8 +40,11 @@ namespace CrossesZeroes.Classes
         /// <param name="markType">Состояние</param>
         public virtual void Set(Point point, CellState markType)
         {
-            if (markType == CellState.Empty) throw new ArgumentException("", nameof(markType));
-            if (field[point.x, point.y] != CellState.Empty) throw new ArgumentException("", nameof(point));
+            if (markType == CellState.Empty) 
+                logger.LogMessageAndThrowException(new ArgumentException("Unknown cell state", nameof(markType)));
+
+            if (field[point.x, point.y] != CellState.Empty)
+                logger.LogMessageAndThrowException(new ArgumentException("Cell already filled", nameof(point)));
 
             field[point.x, point.y] = markType;
         }
@@ -166,6 +171,7 @@ namespace CrossesZeroes.Classes
         }
 
         private readonly Lazy<ReadonlyField> @readonly;
+        private readonly ILogger<CrossesZeroesField> logger;
 
         /// <summary>
         /// Возвращает объект только для чтения

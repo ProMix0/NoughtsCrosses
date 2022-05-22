@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ namespace CrossesZeroes.Abstractions
         protected IPlayer zero;
         //Поле
         protected readonly ICrossesZeroesField field;
+        protected readonly ILogger<CrossesZeroesAbstract> logger;
 
         /// <summary>
         /// Конструктор, через который внедряются зависимости класса
@@ -23,11 +25,12 @@ namespace CrossesZeroes.Abstractions
         /// <param name="player1">Первый игрок</param>
         /// <param name="player2">Второй игрок</param>
         /// <param name="field">Поле</param>
-        public CrossesZeroesAbstract(IPlayer player1, IPlayer player2, ICrossesZeroesField field)
+        public CrossesZeroesAbstract(IPlayer player1, IPlayer player2, ICrossesZeroesField field, ILogger<CrossesZeroesAbstract> logger)
         {
             cross = player1;
             zero = player2;
             this.field = field;
+            this.logger = logger;
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using CrossesZeroes.Abstractions;
 using CrossesZeroes.Common;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace CrossesZeroes.Classes
@@ -10,14 +11,16 @@ namespace CrossesZeroes.Classes
     public sealed class ReadonlyField : ICrossesZeroesField
     {
         private readonly ICrossesZeroesField proxied;
+        private readonly ILogger<ReadonlyField> logger;
 
         /// <summary>
         /// Создаёт новый экземпляр
         /// </summary>
         /// <param name="proxied">Замещаемый экземпляр</param>
-        public ReadonlyField(ICrossesZeroesField proxied)
+        public ReadonlyField(ICrossesZeroesField proxied,ILogger<ReadonlyField> logger)
         {
             this.proxied = proxied;
+            this.logger = logger;
         }
 
         public CellState this[int i, int j] => proxied[i, j];

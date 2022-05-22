@@ -1,4 +1,5 @@
 ﻿using CrossesZeroes.Abstractions;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace CrossesZeroes.Classes
     /// </summary>
     public class CrossesZeroesWithAi : CrossesZeroesGame
     {
-        public CrossesZeroesWithAi(IRealPlayer player1, IAiPlayer player2, ICrossesZeroesField field)
-            : base(player1, player2, field)
+        public CrossesZeroesWithAi(IRealPlayer player1, IAiPlayer player2, ICrossesZeroesField field, ILogger<CrossesZeroesWithAi> logger)
+            : base(player1, player2, field, logger)
         { }
     }
 }

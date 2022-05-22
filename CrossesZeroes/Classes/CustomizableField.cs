@@ -1,5 +1,6 @@
 ﻿using CrossesZeroes.Abstractions;
 using CrossesZeroes.Common;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,11 @@ namespace CrossesZeroes.Classes
     public class CustomizableField : ICrossesZeroesField
     {
 
-        public CustomizableField(IOptions<Configuration> config)
-            : this(config.Value.Height, config.Value.Width, config.Value.WinSequenceLength)
+        public CustomizableField(IOptions<Configuration> config,ILogger<CustomizableField> logger)
+            : this(config.Value.Height, config.Value.Width, config.Value.WinSequenceLength,logger)
         { }
 
-        public CustomizableField(int height, int width, int winSequenceLength)
+        private CustomizableField(int height, int width, int winSequenceLength, ILogger<CustomizableField> logger)
         {
             Width = width > 0 ? width : throw new ArgumentException("Must be more than zero", nameof(width));
             Height = height > 0 ? height : throw new ArgumentException("Must be more than zero", nameof(height));
@@ -26,6 +27,7 @@ namespace CrossesZeroes.Classes
 
             field = new CellState[height, width];
             readonlyField = new(this);
+            this.logger = logger;
         }
 
         public CellState this[int i, int j] => field[i, j];
@@ -38,6 +40,8 @@ namespace CrossesZeroes.Classes
         protected int winSequenceLength;
 
         private readonly ReadonlyField readonlyField;
+        protected readonly ILogger<CustomizableField> logger;
+
         public ICrossesZeroesField AsReadonly() => readonlyField;
 
         public virtual void Clear()

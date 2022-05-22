@@ -1,4 +1,5 @@
 ﻿using CrossesZeroes.Common;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace CrossesZeroes.Classes
 {
     public class ExtraCustomizableField : CustomizableField
     {
-        public ExtraCustomizableField(IOptions<Configuration> config) : base(config)
+        public ExtraCustomizableField(IOptions<Configuration> config, ILogger<ExtraCustomizableField> logger) : base(config, logger)
         {
         }
 

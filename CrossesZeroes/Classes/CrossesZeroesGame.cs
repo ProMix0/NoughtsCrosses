@@ -1,5 +1,6 @@
 ﻿using CrossesZeroes.Abstractions;
 using CrossesZeroes.Common;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,9 @@ namespace CrossesZeroes.Classes
     public class CrossesZeroesGame : CrossesZeroesAbstract
     {
         /// <inheritdoc/>
-        public CrossesZeroesGame(IPlayer player1, IPlayer player2, ICrossesZeroesField field)
+        public CrossesZeroesGame(IPlayer player1, IPlayer player2, ICrossesZeroesField field,ILogger<CrossesZeroesGame> logger)
             ///Вызов конструктора базового класса с параметрами
-            : base(player1, player2, field)
+            : base(player1, player2, field,logger)
         {
             cross.Init(CellState.Cross, field.AsReadonly());
             zero.Init(CellState.Zero, field.AsReadonly());

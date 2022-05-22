@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CrossesZeroes.Abstractions;
 using CrossesZeroes.Common;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace CrossesZeroes.Classes
@@ -15,46 +16,57 @@ namespace CrossesZeroes.Classes
     public class AiPlayer : IAiPlayer
     {
         private readonly AiPlayerBehaviour behaviour;
-        private ICrossesZeroesField field;
+        private readonly ILogger<AiPlayer> logger;
+        private ICrossesZeroesField? field;
 
-        public AiPlayer()
-            : this(Options.Create(new AiPlayerBehaviour()
-            {
-                wantRepeat = true
-            }))
-        {
-
-        }
-
-        public AiPlayer(IOptions<AiPlayerBehaviour> behaviour)
+        public AiPlayer(IOptions<AiPlayerBehaviour> behaviour, ILogger<AiPlayer> logger)
         {
             this.behaviour = behaviour.Value;
+            this.logger = logger;
         }
 
         public void ReportEnd(bool victory)
-        { }
+        {
+            logger.LogInformation("ReportEnd()", victory);
+        }
 
         public void Init(CellState mark, ICrossesZeroesField field)
         {
+            logger.LogDebug("Init()", mark);
+
             this.field = field;
         }
 
         public Task<Point> Turn()
         {
-            //Перебор всех клеток в поиске свободных
-            for (int i = 0; i < field.Height; i++)
-                for (int j = 0; j < field.Width; j++)
-                    if (field[i, j] == CellState.Empty) return Task.FromResult(new Point(i, j));
+            logger.LogInformation("Turn()");
 
-            throw new InvalidProgramException();
+            //Перебор всех клеток в поиске свободных
+            for (int i = 0; i < field!.Height; i++)
+                for (int j = 0; j < field.Width; j++)
+                    if (field[i, j] == CellState.Empty)
+                    {
+                        Point point = new(i, j);
+
+                        logger.LogDebug("Turn() result", point);
+                        return Task.FromResult(point);
+                    }
+
+            Exception exception = new InvalidProgramException("No one empty cells");
+
+            logger.LogError(exception, "No one empty cells");
+            throw exception;
         }
 
-        public Task<bool> IsRepeatWanted() =>
-            Task.FromResult(behaviour.wantRepeat);
+        public Task<bool> IsRepeatWanted()
+        {
+            logger.LogInformation("IsRepeatWanted()", behaviour.wantRepeat);
+            return Task.FromResult(behaviour.wantRepeat);
+        }
 
         public void NotifyFieldChange(Point point)
         {
-            //throw new NotImplementedException();
+            logger.LogInformation("NotifyFieldChange()");
         }
 
         public class AiPlayerBehaviour

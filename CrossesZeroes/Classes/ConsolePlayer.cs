@@ -11,7 +11,7 @@ namespace CrossesZeroes.Classes
     /// <summary>
     /// Представление физического игрока для вывода в консоль
     /// </summary>
-    [Obsolete]
+    [Obsolete("Not supported")]
     public class ConsolePlayer : IRealPlayer
     {
         private ICrossesZeroesField field;

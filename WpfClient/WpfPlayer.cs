@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using CrossesZeroes.Abstractions;
 using CrossesZeroes.Common;
+using Microsoft.Extensions.Logging;
 
 namespace WpfClient
 {
@@ -18,8 +19,9 @@ namespace WpfClient
         protected TaskCompletionSource<Button>? btnCompletionSource = null;
 
         private ICrossesZeroesField field;
+        private readonly ILogger<WpfPlayer> logger;
 
-        public WpfPlayer()
+        public WpfPlayer(ILogger<WpfPlayer> logger)
         {
             // Create a thread
             windowThread = new(new ThreadStart(() =>
@@ -42,6 +44,7 @@ namespace WpfClient
 
 
             while (client == null) Thread.Sleep(10);
+            this.logger = logger;
 
             //Console.WriteLine("Client isn't null");
         }
