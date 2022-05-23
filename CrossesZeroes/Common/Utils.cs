@@ -11,7 +11,7 @@ namespace CrossesZeroes.Common
     {
         public static void LogMessageAndThrowException(this ILogger logger, Exception exception, LogLevel logLevel = LogLevel.Critical)
         {
-            logger.Log(logLevel, exception, exception.Message);
+            logger.Log(logLevel, exception,"Exception was thrown: {Message}", exception.Message);
             throw exception;
         }
     }
