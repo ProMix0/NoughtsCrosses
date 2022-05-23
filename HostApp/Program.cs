@@ -33,12 +33,7 @@ IHost host = Host.CreateDefaultBuilder()
         .AddTransient<IAiPlayer, AiPlayer>()
         .AddTransient<ICrossesZeroesField, ExtraCustomizableField>()
 
-        //TODO inject by single metod
-        //.AddTransient<IWpfView, WpfView>()
-        .AddTransient(_ => Options.Create(new AiPlayer.AiPlayerBehaviour()
-        {
-            wantRepeat = true
-        }))
+        .Configure<AiPlayer.AiPlayerBehaviour>(behaviour => behaviour.wantRepeat = true)
 
         .AddHostedService<CrossesZeroesLoopService>())
 
