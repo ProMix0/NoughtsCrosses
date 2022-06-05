@@ -39,11 +39,11 @@ namespace CrossesZeroes.Classes
         /// <param name="markType">Состояние</param>
         public virtual void Set(Point point, CellState markType)
         {
-            if (markType == CellState.Empty) 
-                logger.LogMessageAndThrowException(new ArgumentException("Unknown cell state", nameof(markType)));
+            if (markType == CellState.Empty)
+                logger.LogMessageAndThrow(new ArgumentException("Unknown cell state", nameof(markType)));
 
             if (field[point.x, point.y] != CellState.Empty)
-                logger.LogMessageAndThrowException(new ArgumentException("Cell already filled", nameof(point)));
+                logger.LogMessageAndThrow(new ArgumentException("Cell already filled", nameof(point)));
 
             field[point.x, point.y] = markType;
         }
