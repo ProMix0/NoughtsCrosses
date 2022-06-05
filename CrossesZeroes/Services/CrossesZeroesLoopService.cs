@@ -13,7 +13,8 @@ namespace CrossesZeroes.Services
     public class CrossesZeroesLoopService : CriticalBackgroundService
     {
         private readonly CrossesZeroesAbstract game;
-        private readonly IHostLifetime lifetime;
+        private readonly IHostApplicationLifetime lifetime;
+        private readonly ILogger<CrossesZeroesLoopService> logger;
 
         public CrossesZeroesLoopService(CrossesZeroesAbstract game, IHostApplicationLifetime lifetime, ILogger<CrossesZeroesLoopService> logger)
             : base(null)
@@ -38,10 +39,10 @@ namespace CrossesZeroes.Services
                 bool restart = await game.IsRestartWanted();
                 if (!restart) break;
 
-                await lifetime.StopAsync(token);
                 game.Restart();
             }
 
+            lifetime.StopApplication();
         }
     }
 }
