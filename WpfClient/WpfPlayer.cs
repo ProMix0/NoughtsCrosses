@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using CrossesZeroes.Abstractions;
 using CrossesZeroes.Common;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace WpfClient
@@ -18,7 +19,7 @@ namespace WpfClient
         protected Button[,]? btnMatr = null;
         protected TaskCompletionSource<Button>? btnCompletionSource = null;
 
-        private ICrossesZeroesField field;
+        private ICrossesZeroesField? field;
         private readonly ILogger<WpfPlayer> logger;
 
         public WpfPlayer(ILogger<WpfPlayer> logger)
@@ -84,7 +85,7 @@ namespace WpfClient
 
         public async Task<CrossesZeroes.Common.Point> Turn()
         {
-            EnsureGridSize(field.Height, field.Width);
+            EnsureGridSize(field!.Height, field.Width);
             //PrintField(field);
 
             btnCompletionSource = new();
@@ -178,7 +179,7 @@ namespace WpfClient
             Dispatcher.FromThread(windowThread).Invoke(() =>
             {
                 int i = point.x, j = point.y;
-                btnMatr![i, j].Content = field[i, j] switch
+                btnMatr![i, j].Content = field![i, j] switch
                 {
                     CellState.Cross => 'X',
                     CellState.Zero => '0',

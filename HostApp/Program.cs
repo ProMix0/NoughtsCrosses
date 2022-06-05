@@ -9,6 +9,9 @@ using WpfClient;
 Console.WriteLine("Building host");
 
 IHost host = Host.CreateDefaultBuilder()
+    .ConfigureHostOptions(options=>
+        options.BackgroundServiceExceptionBehavior=BackgroundServiceExceptionBehavior.StopHost)
+
     .ConfigureAppConfiguration(config =>
         config.AddJsonFile("Settings.json"))
 
@@ -29,12 +32,12 @@ IHost host = Host.CreateDefaultBuilder()
         .AddTransient<IAiPlayer, AiPlayer>()
         .AddTransient<ICrossesZeroesField, ExtraCustomizableField>()
 
+        .AddSingleton<ReadonlyFieldBinder>()
+
         .Configure<AiPlayer.AiPlayerBehaviour>(behaviour => behaviour.wantRepeat = true)
 
-        .AddHostedService<CrossesZeroesLoopService>())
-
-    .ConfigureLogging(logging =>
-        logging.ClearProviders())
+        .AddHostedService<CrossesZeroesLoopService>()
+        )
 
     .UseConsoleLifetime()
 
