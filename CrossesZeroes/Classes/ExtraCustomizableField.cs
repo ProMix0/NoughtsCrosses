@@ -11,7 +11,7 @@ namespace CrossesZeroes.Classes
 {
     public class ExtraCustomizableField : CustomizableField
     {
-        public ExtraCustomizableField(IOptions<Configuration> config, ILogger<ExtraCustomizableField> logger) : base(config, logger)
+        public ExtraCustomizableField(IOptions<Configuration> config, ILogger<ExtraCustomizableField> logger,ReadonlyFieldBinder binder) : base(config, logger,binder)
         {
         }
 

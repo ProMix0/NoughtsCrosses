@@ -13,11 +13,11 @@ namespace CrossesZeroes.Classes
     public class CustomizableField : ICrossesZeroesField
     {
 
-        public CustomizableField(IOptions<Configuration> config,ILogger<CustomizableField> logger)
-            : this(config.Value.Height, config.Value.Width, config.Value.WinSequenceLength,logger)
+        public CustomizableField(IOptions<Configuration> config,ILogger<CustomizableField> logger,ReadonlyFieldBinder readonlyBinder)
+            : this(config.Value.Height, config.Value.Width, config.Value.WinSequenceLength,logger, readonlyBinder)
         { }
 
-        private CustomizableField(int height, int width, int winSequenceLength, ILogger<CustomizableField> logger)
+        private CustomizableField(int height, int width, int winSequenceLength, ILogger<CustomizableField> logger,ReadonlyFieldBinder readonlyBinder)
         {
             Width = width > 0 ? width : throw new ArgumentException("Must be more than zero", nameof(width));
             Height = height > 0 ? height : throw new ArgumentException("Must be more than zero", nameof(height));
@@ -26,7 +26,7 @@ namespace CrossesZeroes.Classes
                 throw new ArgumentException("Must be more than zero", nameof(winSequenceLength));
 
             field = new CellState[height, width];
-            readonlyField = new(this);
+            readonlyField = readonlyBinder.Bind(this);
             this.logger = logger;
         }
 
