@@ -1,7 +1,6 @@
 ﻿using CrossesZeroes.Abstractions;
 using CrossesZeroes.Common;
 using Microsoft.Extensions.Logging;
-using System;
 
 namespace CrossesZeroes.Classes
 {

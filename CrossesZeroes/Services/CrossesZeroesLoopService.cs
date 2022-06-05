@@ -1,12 +1,7 @@
-﻿using CrossesZeroes.Abstractions;
 ﻿using BetterHostedServices;
+using CrossesZeroes.Abstractions;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace CrossesZeroes.Services
 {

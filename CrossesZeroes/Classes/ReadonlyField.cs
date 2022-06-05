@@ -1,7 +1,7 @@
 ﻿using CrossesZeroes.Abstractions;
 using CrossesZeroes.Common;
 using Microsoft.Extensions.Logging;
-using System;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CrossesZeroes.Classes
 {
