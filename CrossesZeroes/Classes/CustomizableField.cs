@@ -68,67 +68,84 @@ namespace CrossesZeroes.Classes
             List<List<Point>> result = new();
 
             //Вертикальные
-            for (int i = 0; i <= field.GetLength(0) - winSequenceLength; i++)
-                for (int j = 0; j < field.GetLength(1); j++)
-                    GetCol(i, j);
-
-            void GetCol(int i, int j)
-            {
-                List<Point> temp = new();
-
-                for (int k = 0; k < winSequenceLength; k++)
-                    temp.Add(new(i + k, j));
-
-                result.Add(temp);
-            }
+            VerticalIndexes(result);
 
             //Горизонтальные
-            for (int i = 0; i < field.GetLength(0); i++)
-                for (int j = 0; j <= field.GetLength(1) - winSequenceLength; j++)
-                    GetRow(i, j);
-
-            void GetRow(int i, int j)
-            {
-                List<Point> temp = new();
-
-                for (int k = 0; k < winSequenceLength; k++)
-                    temp.Add(new(i, j + k));
-
-                result.Add(temp);
-            }
+            HorizontalIndexes(result);
 
             //Диагональные возрастающие
-            for (int i = winSequenceLength - 1; i < field.GetLength(0); i++)
-                for (int j = 0; j <= field.GetLength(1) - winSequenceLength; j++)
-                    GetUpDiagonal(i, j);
-
-            void GetUpDiagonal(int i, int j)
-            {
-                List<Point> temp = new();
-
-                for (int k = 0; k < winSequenceLength; k++)
-                    temp.Add(new(i - k, j + k));
-
-                result.Add(temp);
-            }
+            DiagonalUpIndexes(result);
 
             //Диагональные убывающие
-            for (int i = 0; i <= field.GetLength(0) - winSequenceLength; i++)
-                for (int j = 0; j <= field.GetLength(1) - winSequenceLength; j++)
-                    GetDownDiagonal(i, j);
-
-            void GetDownDiagonal(int i, int j)
-            {
-                List<Point> temp = new();
-                for (int k = 0; k < winSequenceLength; k++)
-                    temp.Add(new(i + k, j + k));
-                result.Add(temp);
-            }
+            DiagonalDownIndexes(result);
 
             return result;
-        }
 
+            void VerticalIndexes(List<List<Point>> result)
+            {
+                for (int i = 0; i <= field.GetLength(0) - WinSequenceLength; i++)
+                    for (int j = 0; j < field.GetLength(1); j++)
+                        GetCol(i, j);
 
+                void GetCol(int i, int j)
+                {
+                    List<Point> temp = new();
+
+                    for (int k = 0; k < WinSequenceLength; k++)
+                        temp.Add(new(i + k, j));
+
+                    result.Add(temp);
+                }
+            }
+
+            void HorizontalIndexes(List<List<Point>> result)
+            {
+                for (int i = 0; i < field.GetLength(0); i++)
+                    for (int j = 0; j <= field.GetLength(1) - WinSequenceLength; j++)
+                        GetRow(i, j);
+
+                void GetRow(int i, int j)
+                {
+                    List<Point> temp = new();
+
+                    for (int k = 0; k < WinSequenceLength; k++)
+                        temp.Add(new(i, j + k));
+
+                    result.Add(temp);
+                }
+            }
+
+            void DiagonalUpIndexes(List<List<Point>> result)
+            {
+                for (int i = WinSequenceLength - 1; i < field.GetLength(0); i++)
+                    for (int j = 0; j <= field.GetLength(1) - WinSequenceLength; j++)
+                        GetUpDiagonal(i, j);
+
+                void GetUpDiagonal(int i, int j)
+                {
+                    List<Point> temp = new();
+
+                    for (int k = 0; k < WinSequenceLength; k++)
+                        temp.Add(new(i - k, j + k));
+
+                    result.Add(temp);
+                }
+            }
+
+            void DiagonalDownIndexes(List<List<Point>> result)
+            {
+                for (int i = 0; i <= field.GetLength(0) - WinSequenceLength; i++)
+                    for (int j = 0; j <= field.GetLength(1) - WinSequenceLength; j++)
+                        GetDownDiagonal(i, j);
+
+                void GetDownDiagonal(int i, int j)
+                {
+                    List<Point> temp = new();
+                    for (int k = 0; k < WinSequenceLength; k++)
+                        temp.Add(new(i + k, j + k));
+                    result.Add(temp);
+                }
+            }
         }
 
         public class Configuration

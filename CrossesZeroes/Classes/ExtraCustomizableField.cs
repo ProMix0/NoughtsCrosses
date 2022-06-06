@@ -13,27 +13,27 @@ namespace CrossesZeroes.Classes
         protected override IEnumerable<IEnumerable<Point>> WinIndexes()
         {
             //Вертикальные
-            for (int i = Math.Max(0, LastPoint.x - winSequenceLength + 1); i <= Math.Min(Height - winSequenceLength, LastPoint.x); i++)
+            for (int i = Math.Max(0, LastPoint.x - WinSequenceLength + 1); i <= Math.Min(Height - WinSequenceLength, LastPoint.x); i++)
                 yield return GetCol(i, LastPoint.y);
 
             IEnumerable<Point> GetCol(int i, int j)
             {
-                for (int k = 0; k < winSequenceLength; k++)
+                for (int k = 0; k < WinSequenceLength; k++)
                     yield return new(i + k, j);
             }
 
             //Горизонтальные
-            for (int j = Math.Max(0, LastPoint.y - winSequenceLength); j <= Math.Min(Width - winSequenceLength, LastPoint.y); j++)
+            for (int j = Math.Max(0, LastPoint.y - WinSequenceLength); j <= Math.Min(Width - WinSequenceLength, LastPoint.y); j++)
                 yield return GetRow(LastPoint.x, j);
 
             IEnumerable<Point> GetRow(int i, int j)
             {
-                for (int k = 0; k < winSequenceLength; k++)
+                for (int k = 0; k < WinSequenceLength; k++)
                     yield return new(i, j + k);
             }
 
             //Диагональные возрастающие
-            for (int k = 0; k < winSequenceLength; k++)
+            for (int k = 0; k < WinSequenceLength; k++)
             {
                 IEnumerable<Point> seq = GetUpDiagonal(LastPoint.x + k, LastPoint.y - k);
                 if (seq.All(point => point.x >= 0 && point.y >= 0 && point.x < Height && point.y < Width))
@@ -42,12 +42,12 @@ namespace CrossesZeroes.Classes
 
             IEnumerable<Point> GetUpDiagonal(int i, int j)
             {
-                for (int k = 0; k < winSequenceLength; k++)
+                for (int k = 0; k < WinSequenceLength; k++)
                     yield return new(i - k, j + k);
             }
 
             //Диагональные убывающие
-            for (int k = 0; k < winSequenceLength; k++)
+            for (int k = 0; k < WinSequenceLength; k++)
             {
                 IEnumerable<Point> seq = GetDownDiagonal(LastPoint.x - k, LastPoint.y - k);
                 if (seq.All(point => point.x >= 0 && point.y >= 0 && point.x < Height && point.y < Width))
@@ -56,7 +56,7 @@ namespace CrossesZeroes.Classes
 
             IEnumerable<Point> GetDownDiagonal(int i, int j)
             {
-                for (int k = 0; k < winSequenceLength; k++)
+                for (int k = 0; k < WinSequenceLength; k++)
                     yield return new(i + k, j + k);
             }
         }

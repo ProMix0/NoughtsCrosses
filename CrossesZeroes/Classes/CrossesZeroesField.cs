@@ -116,53 +116,49 @@ namespace CrossesZeroes.Classes
         /// <returns></returns>
         public virtual bool IsEndGame(out CellState winner)
         {
-            //Перебор всех победных последовательностей
+            winner = CellState.Empty;
 
             foreach (var seq in WinIndexes())
             {
                 //Если все крестики
-                bool crosses = true;
-                foreach (var point in seq)
-                {
-                    if (field[point.x, point.y] != CellState.Cross)
-                    {
-                        crosses = false;
-                        break;
-                    }
-                }
-                if (crosses)
-                {
-                    //...то крестики победили
-                    winner = CellState.Cross;
+                if (CheckWin(seq, CellState.Cross, ref winner))
                     return true;
-                }
 
                 //Если все нолики
-                bool zeroes = true;
+                if (CheckWin(seq, CellState.Zero, ref winner))
+                    return true;
+            }
+
+            return CheckEndGame();
+
+            bool CheckWin(IEnumerable<Point> seq, CellState player, ref CellState winner)
+            {
+                bool win = true;
                 foreach (var point in seq)
                 {
-                    if (field[point.x, point.y] != CellState.Zero)
+                    if (field[point.x, point.y] != player)
                     {
-                        zeroes = false;
+                        win = false;
                         break;
                     }
                 }
-                if (zeroes)
+
+                if (win)
                 {
-                    //...то нолики победили
-                    winner = CellState.Zero;
-                    return true;
+                    winner = player;
                 }
+                return win;
             }
 
-
-            winner = CellState.Empty;
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
-                    //Если хоть одна клетка пустая, то игра не завершена
-                    if (field[i, j] == CellState.Empty) return false;
-            //Иначе ничья
-            return true;
+            bool CheckEndGame()
+            {
+                for (int i = 0; i < 3; i++)
+                    for (int j = 0; j < 3; j++)
+                        //Если хоть одна клетка пустая, то игра не завершена
+                        if (field[i, j] == CellState.Empty) return false;
+                //Иначе ничья
+                return true;
+            }
         }
 
         /// <summary>

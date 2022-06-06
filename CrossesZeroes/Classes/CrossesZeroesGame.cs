@@ -24,22 +24,24 @@ namespace CrossesZeroes.Classes
         public async override Task<bool> Turn()
         {
             if (gameCompleted) return false;
-            Point turnResult = await cross.Turn();
-            field.Set(turnResult, CellState.Cross);
-            zero.NotifyFieldChange(turnResult);
-            cross.NotifyFieldChange(turnResult);
-            CheckWin();
+
+            await MakeTurn(CellState.Cross);
 
             if (gameCompleted) return false;
-            turnResult = await zero.Turn();
-            field.Set(turnResult, CellState.Zero);
-            cross.NotifyFieldChange(turnResult);
-            zero.NotifyFieldChange(turnResult);
-            CheckWin();
+
+            await MakeTurn(CellState.Zero);
 
             return true;
 
-            //Проверка на выигрыш
+            async Task MakeTurn(CellState player)
+            {
+                Point turnResult = await cross.Turn();
+                field.Set(turnResult, player);
+                zero.NotifyFieldChange(turnResult);
+                cross.NotifyFieldChange(turnResult);
+                CheckWin();
+            }
+
             void CheckWin()
             {
                 if (field.IsEndGame(out CellState winner))
