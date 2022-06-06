@@ -1,6 +1,7 @@
 ﻿using CrossesZeroes.Abstractions;
 using CrossesZeroes.Classes;
 using CrossesZeroes.Services;
+using CrossesZeroes.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,10 +21,11 @@ IHost host = Host.CreateDefaultBuilder()
 
         //Позволят получить объект с настройками через DI
         services
-        .AddOptions<CustomizableField.Configuration>()
+        .AddOptions<CustomizableField.Configuration>(builder =>
+            builder
             .BindConfiguration(CustomizableField.Configuration.SectionName)
-            .Validate(CustomizableField.Configuration.Validate)
-            .Services
+            .Validate(CustomizableField.Configuration.Validate))
+
 
         //AddTransient добавляет в коллекцию сервисов класс
         //Первое обобщение говорит о запрашиваемом классе, второе - о возвращаемом
