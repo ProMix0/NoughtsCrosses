@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using CrossesZeroes.Abstractions;
+using CrossesZeroes.Services;
 
 namespace CrossesZeroes.DI
 {

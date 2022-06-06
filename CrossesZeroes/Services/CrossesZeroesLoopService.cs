@@ -1,5 +1,6 @@
 ﻿using BetterHostedServices;
 using CrossesZeroes.Abstractions;
+using CrossesZeroes.Utils;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
