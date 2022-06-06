@@ -2,6 +2,7 @@
 using CrossesZeroes.Common;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using CrossesZeroes.Utils;
 
 namespace CrossesZeroes.Classes
 {
@@ -30,14 +31,14 @@ namespace CrossesZeroes.Classes
 
         public void Set(Point point, CellState markType)
         {
-            throw new InvalidOperationException();
+            logger.LogMessageAndThrow( new InvalidOperationException("Attempts to Set() in ReadonlyField"));
         }
 
         public ICrossesZeroesField AsReadonly() => this;
 
         public void Clear()
         {
-            throw new InvalidOperationException();
+            logger.LogMessageAndThrow(new InvalidOperationException("Attempts to Clear() in ReadonlyField"));
         }
 
         public bool IsEndGame(out CellState winner) => proxied.IsEndGame(out winner);

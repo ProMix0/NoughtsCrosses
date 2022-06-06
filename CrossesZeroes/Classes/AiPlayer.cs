@@ -1,5 +1,6 @@
 ﻿using CrossesZeroes.Abstractions;
 using CrossesZeroes.Common;
+using CrossesZeroes.Utils;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -22,19 +23,19 @@ namespace CrossesZeroes.Classes
 
         public void ReportEnd(bool victory)
         {
-            logger.LogInformation("ReportEnd()", victory);
+            logger.LogInformation("Reporting end, victory: {Victory}", victory);
         }
 
         public void Init(CellState mark, ICrossesZeroesField field)
         {
-            logger.LogDebug("Init()", mark);
+            logger.LogInformation("Initialization with mark: {Mark}", mark);
 
             this.field = field;
         }
 
         public Task<Point> Turn()
         {
-            logger.LogInformation("Turn()");
+            logger.LogInformation("Turning");
 
             //Перебор всех клеток в поиске свободных
             for (int i = 0; i < field!.Height; i++)
@@ -43,25 +44,24 @@ namespace CrossesZeroes.Classes
                     {
                         Point point = new(i, j);
 
-                        logger.LogDebug("Turn() result", point);
+                        logger.LogDebug("Turning result: {Point}", point);
                         return Task.FromResult(point);
                     }
 
-            Exception exception = new InvalidProgramException("No one empty cells");
-
-            logger.LogError(exception, "No one empty cells");
-            throw exception;
+            logger.LogMessageAndThrow(new InvalidProgramException("No one empty cells"));
+            throw new Exception();
         }
 
         public Task<bool> IsRepeatWanted()
         {
-            logger.LogInformation("IsRepeatWanted()", behaviour.wantRepeat);
+            logger.LogInformation("Repeat wanted: {RepeatWanted}", behaviour.wantRepeat);
+
             return Task.FromResult(behaviour.wantRepeat);
         }
 
         public void NotifyFieldChange(Point point)
         {
-            logger.LogInformation("NotifyFieldChange()");
+            logger.LogInformation("Field changed at {Point}", point);
         }
 
         public class AiPlayerBehaviour
