@@ -10,33 +10,27 @@ using WpfClient;
 Console.WriteLine("Building host");
 
 IHost host = Host.CreateDefaultBuilder()
-    .ConfigureHostOptions(options=>
-        options.BackgroundServiceExceptionBehavior=BackgroundServiceExceptionBehavior.StopHost)
+    .ConfigureHostOptions(options =>
+        options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.StopHost)
 
     .ConfigureAppConfiguration(config =>
         config.AddJsonFile("Settings.json"))
 
-    //Добавление сервисов (классов)
     .ConfigureServices((context, services) =>
-
-        //Позволят получить объект с настройками через DI
         services
         .AddOptions<CustomizableField.Configuration>(builder =>
             builder
             .BindConfiguration(CustomizableField.Configuration.SectionName)
             .Validate(CustomizableField.Configuration.Validate))
 
+        .Configure<AiPlayer.AiPlayerBehaviour>(behaviour => behaviour.wantRepeat = true)
 
-        //AddTransient добавляет в коллекцию сервисов класс
-        //Первое обобщение говорит о запрашиваемом классе, второе - о возвращаемом
         .AddTransient<CrossesZeroesAbstract, CrossesZeroesWithAi>()
         .AddTransient<IRealPlayer, WpfPlayer>()
         .AddTransient<IAiPlayer, AiPlayer>()
         .AddTransient<ICrossesZeroesField, ExtraCustomizableField>()
 
         .AddSingleton<ReadonlyFieldBinder>()
-
-        .Configure<AiPlayer.AiPlayerBehaviour>(behaviour => behaviour.wantRepeat = true)
 
         .AddHostedService<CrossesZeroesLoopService>()
         )
