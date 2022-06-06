@@ -18,6 +18,7 @@ IHost host = Host.CreateDefaultBuilder()
 
     .ConfigureServices((context, services) =>
         services
+
         .AddOptions<CustomizableField.Configuration>(builder =>
             builder
             .BindConfiguration(CustomizableField.Configuration.SectionName)

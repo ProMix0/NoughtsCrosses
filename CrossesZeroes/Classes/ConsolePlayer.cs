@@ -13,7 +13,7 @@ namespace CrossesZeroes.Classes
 
         public void ReportEnd(bool victory)
         {
-            PrintField(victory ? "You win!" : "You lose...");
+            PrintField(header: victory ? "You win!" : "You lose...");
         }
 
         private CellState mark;
