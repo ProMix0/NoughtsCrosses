@@ -12,5 +12,10 @@
             this.x = x;
             this.y = y;
         }
+
+        public override string ToString()
+        {
+            return $"X: {x}, Y: {y}";
+        }
     }
 }
