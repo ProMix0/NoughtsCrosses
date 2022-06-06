@@ -29,8 +29,8 @@ namespace CrossesZeroes.Classes
             get => field[i, j];
         }
 
-        public int Width { get; } = 3;
-        public int Height { get; } = 3;
+        public virtual int Width { get; protected set; } = 3;
+        public virtual int Height { get; protected set; } = 3;
 
         /// <summary>
         /// Устанавливает состояние клетки поля
@@ -101,7 +101,9 @@ namespace CrossesZeroes.Classes
                 new(1,1),
                 new(0,2)
             }
-};
+        };
+
+        protected virtual IEnumerable<IEnumerable<Point>> WinIndexes() => winIndexes;
 
         /// <summary>
         /// Проверка на окончание игры
@@ -114,7 +116,8 @@ namespace CrossesZeroes.Classes
         public virtual bool IsEndGame(out CellState winner)
         {
             //Перебор всех победных последовательностей
-            foreach (var seq in winIndexes)
+
+            foreach (var seq in WinIndexes())
             {
                 //Если все крестики
                 bool crosses = true;
@@ -169,8 +172,8 @@ namespace CrossesZeroes.Classes
             field = new CellState[3, 3];
         }
 
-        private readonly Lazy<ReadonlyField> @readonly;
-        private readonly ILogger<CrossesZeroesField> logger;
+        protected readonly ReadonlyField readonlyField;
+        protected readonly ILogger<CrossesZeroesField> logger;
 
         /// <summary>
         /// Возвращает объект только для чтения

@@ -5,102 +5,64 @@ using Microsoft.Extensions.Options;
 
 namespace CrossesZeroes.Classes
 {
-    public class CustomizableField : ICrossesZeroesField
+    public class CustomizableField : CrossesZeroesField
     {
 
-        public CustomizableField(IOptions<Configuration> config,ILogger<CustomizableField> logger,ReadonlyFieldBinder readonlyBinder)
-            : this(config.Value.Height, config.Value.Width, config.Value.WinSequenceLength,logger, readonlyBinder)
+        public CustomizableField(IOptions<Configuration> config, ILogger<CustomizableField> logger, ReadonlyFieldBinder readonlyBinder)
+            : this(config.Value.Height, config.Value.Width, config.Value.WinSequenceLength, logger, readonlyBinder)
         { }
 
-        private CustomizableField(int height, int width, int winSequenceLength, ILogger<CustomizableField> logger,ReadonlyFieldBinder readonlyBinder)
+        private CustomizableField(int height, int width, int winSequenceLength, ILogger<CustomizableField> logger, ReadonlyFieldBinder readonlyBinder)
+            :base(logger,readonlyBinder)
         {
-            Width = width > 0 ? width : throw new ArgumentException("Must be more than zero", nameof(width));
-            Height = height > 0 ? height : throw new ArgumentException("Must be more than zero", nameof(height));
-            this.winSequenceLength = winSequenceLength > 0 ?
-                winSequenceLength : 
-                throw new ArgumentException("Must be more than zero", nameof(winSequenceLength));
+            Width = width;
+            Height = height;
+            WinSequenceLength = winSequenceLength;
 
-            field = new CellState[height, width];
-            readonlyField = readonlyBinder.Bind(this);
-            this.logger = logger;
+            Clear();
         }
 
-        public CellState this[int i, int j] => field[i, j];
-        protected CellState[,] field;
+        public override int Width
+        {
+            get => width;
+            protected set
+            {
+                if (value <= 0) logger.LogMessageAndThrow(new ArgumentException("Must be more than zero", nameof(Width)));
+                width = value;
+            }
+        }
+        private int width;
 
-        public int Width { get; }
+        public override int Height
+        {
+            get => height;
+            protected set
+            {
+                if (value <= 0) logger.LogMessageAndThrow(new ArgumentException("Must be more than zero", nameof(Height)));
+                height = value;
+            }
+        }
+        private int height;
 
-        public int Height { get; }
+        protected int WinSequenceLength
+        {
+            get => winSequenceLength; set
+            {
+                if (value <= 0) logger.LogMessageAndThrow(new ArgumentException("Must be more than zero", nameof(WinSequenceLength)));
+                winSequenceLength = value;
+            }
+        }
+        private int winSequenceLength;
 
-        protected int winSequenceLength;
-
-        private readonly ReadonlyField readonlyField;
-        protected readonly ILogger<CustomizableField> logger;
-
-        public ICrossesZeroesField AsReadonly() => readonlyField;
-
-        public virtual void Clear()
+        public override void Clear()
         {
             field = new CellState[Height, Width];
         }
-
-        public virtual bool IsEndGame(out CellState winner)
-        {
-            //Перебор всех победных последовательностей
-            foreach (var seq in WinIndexes())
-            {
-                //Если все крестики
-                bool crosses = true;
-                foreach (var point in seq)
-                {
-                    if (field[point.x, point.y] != CellState.Cross)
-                    {
-                        crosses = false;
-                        break;
-                    }
-                }
-                if (crosses)
-                {
-                    //...то крестики победили
-                    winner = CellState.Cross;
-                    return true;
-                }
-
-                //Если все нолики
-                bool zeroes = true;
-                foreach (var point in seq)
-                {
-                    if (field[point.x, point.y] != CellState.Zero)
-                    {
-                        zeroes = false;
-                        break;
-                    }
-                }
-                if (zeroes)
-                {
-                    //...то нолики победили
-                    winner = CellState.Zero;
-                    return true;
-                }
-            }
+        protected override IEnumerable<IEnumerable<Point>> WinIndexes() => winIndexesCache ??= GenerateWinIndexes();
 
 
-            winner = CellState.Empty;
-            for (int i = 0; i < field.GetLength(0); i++)
-                for (int j = 0; j < field.GetLength(1); j++)
-                    //Если хоть одна клетка пустая, то игра не завершена
-                    if (field[i, j] == CellState.Empty) return false;
-            //Иначе ничья
-            return true;
-        }
-
-
-
-        protected virtual IEnumerable<IEnumerable<Point>> WinIndexes() => winIndexes ??= InternalWinIndexes();
-
-
-        private List<List<Point>>? winIndexes = null;
-        private List<List<Point>> InternalWinIndexes()
+        private List<List<Point>>? winIndexesCache = null;
+        private List<List<Point>> GenerateWinIndexes()
         {
             List<List<Point>> result = new();
 
@@ -165,12 +127,7 @@ namespace CrossesZeroes.Classes
             return result;
         }
 
-        public virtual void Set(Point point, CellState markType)
-        {
-            if (markType == CellState.Empty) throw new ArgumentException("Unknown type of mark", nameof(markType));
-            if (field[point.x, point.y] != CellState.Empty) throw new ArgumentException("Cell already filled", nameof(point));
 
-            field[point.x, point.y] = markType;
         }
 
         public class Configuration
