@@ -14,7 +14,7 @@ namespace CrossesZeroes.Classes
 
         public CrossesZeroesField(ILogger<CrossesZeroesField> logger, ReadonlyFieldBinder readonlyBinder)
         {
-            @readonly = new(() => readonlyBinder.Bind(this));
+            readonlyField = readonlyBinder.Bind(this);
             this.logger = logger;
         }
 
@@ -176,6 +176,6 @@ namespace CrossesZeroes.Classes
         /// Возвращает объект только для чтения
         /// </summary>
         /// <returns>Объект только для чтения</returns>
-        public virtual ICrossesZeroesField AsReadonly() => @readonly.Value;
+        public virtual ICrossesZeroesField AsReadonly() => readonlyField;
     }
 }
