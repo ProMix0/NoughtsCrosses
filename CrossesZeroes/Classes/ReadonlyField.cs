@@ -12,13 +12,13 @@ namespace CrossesZeroes.Classes
     public sealed class ReadonlyField : ICrossesZeroesField
     {
         private readonly ICrossesZeroesField proxied;
-        private readonly ILogger<ReadonlyField> logger;
+        private readonly ILogger<ICrossesZeroesField> logger;
 
         /// <summary>
         /// Создаёт новый экземпляр
         /// </summary>
         /// <param name="proxied">Замещаемый экземпляр</param>
-        public ReadonlyField(ICrossesZeroesField proxied,ILogger<ReadonlyField> logger)
+        public ReadonlyField(ICrossesZeroesField proxied,ILogger<ICrossesZeroesField> logger)
         {
             this.proxied = proxied;
             this.logger = logger;
@@ -42,20 +42,5 @@ namespace CrossesZeroes.Classes
         }
 
         public bool IsEndGame(out CellState winner) => proxied.IsEndGame(out winner);
-    }
-
-    public class ReadonlyFieldBinder
-    {
-        private readonly IServiceProvider provider;
-
-        public ReadonlyFieldBinder(IServiceProvider provider)
-        {
-            this.provider = provider;
-        }
-
-        public ReadonlyField Bind(ICrossesZeroesField proxied)
-        {
-            return new(proxied, provider.GetRequiredService<ILogger<ReadonlyField>>());
-        }
     }
 }

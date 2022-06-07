@@ -13,9 +13,9 @@ namespace CrossesZeroes.Classes
         //Матрица клеток
         protected CellState[,] field = new CellState[3, 3];
 
-        public CrossesZeroesField(ILogger<CrossesZeroesField> logger, ReadonlyFieldBinder readonlyBinder)
+        public CrossesZeroesField(ILogger<CrossesZeroesField> logger)
         {
-            readonlyField = readonlyBinder.Bind(this);
+            readonlyField = new(this,logger);
             this.logger = logger;
         }
 

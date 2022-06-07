@@ -9,12 +9,12 @@ namespace CrossesZeroes.Classes
     public class CustomizableField : CrossesZeroesField
     {
 
-        public CustomizableField(IOptions<Configuration> config, ILogger<CustomizableField> logger, ReadonlyFieldBinder readonlyBinder)
-            : this(config.Value.Height, config.Value.Width, config.Value.WinSequenceLength, logger, readonlyBinder)
+        public CustomizableField(IOptions<Configuration> config, ILogger<CustomizableField> logger)
+            : this(config.Value.Height, config.Value.Width, config.Value.WinSequenceLength, logger)
         { }
 
-        private CustomizableField(int height, int width, int winSequenceLength, ILogger<CustomizableField> logger, ReadonlyFieldBinder readonlyBinder)
-            :base(logger,readonlyBinder)
+        private CustomizableField(int height, int width, int winSequenceLength, ILogger<CustomizableField> logger)
+            :base(logger)
         {
             Width = width;
             Height = height;

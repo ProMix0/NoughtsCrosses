@@ -31,8 +31,6 @@ IHost host = Host.CreateDefaultBuilder()
         .AddTransient<IAiPlayer, AiPlayer>()
         .AddTransient<ICrossesZeroesField, ExtraCustomizableField>()
 
-        .AddSingleton<ReadonlyFieldBinder>()
-
         .AddHostedService<CrossesZeroesLoopService>()
         )
 
