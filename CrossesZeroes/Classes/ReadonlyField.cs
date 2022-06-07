@@ -18,7 +18,7 @@ namespace CrossesZeroes.Classes
         /// Создаёт новый экземпляр
         /// </summary>
         /// <param name="proxied">Замещаемый экземпляр</param>
-        public ReadonlyField(ICrossesZeroesField proxied,ILogger<ICrossesZeroesField> logger)
+        public ReadonlyField(ICrossesZeroesField proxied, ILogger<ICrossesZeroesField> logger)
         {
             this.proxied = proxied;
             this.logger = logger;
@@ -31,14 +31,14 @@ namespace CrossesZeroes.Classes
 
         public void Set(Point point, CellState markType)
         {
-            logger.LogMessageAndThrow( new InvalidOperationException("Attempts to Set() in ReadonlyField"));
+            throw logger.LogExceptionMessage(new InvalidOperationException("Attempts to Set() in ReadonlyField"));
         }
 
         public ICrossesZeroesField AsReadonly() => this;
 
         public void Clear()
         {
-            logger.LogMessageAndThrow(new InvalidOperationException("Attempts to Clear() in ReadonlyField"));
+            throw logger.LogExceptionMessage(new InvalidOperationException("Attempts to Clear() in ReadonlyField"));
         }
 
         public bool IsEndGame(out CellState winner) => proxied.IsEndGame(out winner);

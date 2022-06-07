@@ -28,7 +28,7 @@ namespace CrossesZeroes.Classes
             get => width;
             protected set
             {
-                if (value <= 0) logger.LogMessageAndThrow(new ArgumentException("Must be more than zero", nameof(Width)));
+                if (value <= 0) throw logger.LogExceptionMessage(new ArgumentException("Must be more than zero", nameof(Width)));
                 width = value;
             }
         }
@@ -39,7 +39,7 @@ namespace CrossesZeroes.Classes
             get => height;
             protected set
             {
-                if (value <= 0) logger.LogMessageAndThrow(new ArgumentException("Must be more than zero", nameof(Height)));
+                if (value <= 0) throw logger.LogExceptionMessage(new ArgumentException("Must be more than zero", nameof(Height)));
                 height = value;
             }
         }
@@ -49,7 +49,7 @@ namespace CrossesZeroes.Classes
         {
             get => winSequenceLength; set
             {
-                if (value <= 0) logger.LogMessageAndThrow(new ArgumentException("Must be more than zero", nameof(WinSequenceLength)));
+                if (value <= 0) throw logger.LogExceptionMessage(new ArgumentException("Must be more than zero", nameof(WinSequenceLength)));
                 winSequenceLength = value;
             }
         }

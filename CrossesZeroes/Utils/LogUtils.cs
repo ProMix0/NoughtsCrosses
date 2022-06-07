@@ -4,10 +4,11 @@ namespace CrossesZeroes.Utils
 {
     public static class LogUtils
     {
-        public static void LogMessageAndThrow(this ILogger logger, Exception exception, LogLevel logLevel = LogLevel.Critical)
+        public static TException LogExceptionMessage<TException>(this ILogger logger, TException exception, LogLevel logLevel = LogLevel.Critical)
+            where TException : Exception
         {
-            logger.Log(logLevel, exception,"Exception was thrown: {Message}", exception.Message);
-            throw exception;
+            logger.Log(logLevel, exception, "Exception was thrown: {Message}", exception.Message);
+            return exception;
         }
     }
 }

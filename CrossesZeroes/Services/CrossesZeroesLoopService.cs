@@ -22,7 +22,7 @@ namespace CrossesZeroes.Services
 
         protected override void OnError(Exception exceptionFromExecuteAsync)
         {
-            logger.LogMessageAndThrow(exceptionFromExecuteAsync);
+            throw logger.LogExceptionMessage(exceptionFromExecuteAsync);
         }
 
         protected async override Task ExecuteAsync(CancellationToken token)
