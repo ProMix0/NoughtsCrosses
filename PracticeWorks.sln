@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HostApp", "HostApp\HostApp.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossesZeroes", "CrossesZeroes\CrossesZeroes.csproj", "{264DB206-3C05-4EC6-B051-FF59C2C44466}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossesZeroes.Tests", "CrossesZeroes.Tests\CrossesZeroes.Tests.csproj", "{C59631D9-49E5-4A1B-AD93-F576466FFCE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
