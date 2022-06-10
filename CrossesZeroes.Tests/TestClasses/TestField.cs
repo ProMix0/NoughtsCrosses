@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CrossesZeroes.Tests.TestClasses
 {
-    internal class TestField : CrossesZeroesField
+    public class TestField : CrossesZeroesField
     {
         public TestField() : base(NullLogger<CrossesZeroesField>.Instance)
         {
