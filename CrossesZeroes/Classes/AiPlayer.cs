@@ -48,8 +48,7 @@ namespace CrossesZeroes.Classes
                         return Task.FromResult(point);
                     }
 
-            logger.LogMessageAndThrow(new InvalidProgramException("No one empty cells"));
-            throw new Exception();
+            throw logger.LogExceptionMessage(new InvalidOperationException("No one empty cells"));
         }
 
         public Task<bool> IsRepeatWanted()
