@@ -6,12 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WpfClient;
+using CrossesZeroes.DI;
 
 Console.WriteLine("Building host");
 
 IHost host = Host.CreateDefaultBuilder()
-    .ConfigureHostOptions(options =>
-        options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.StopHost)
 
     .ConfigureAppConfiguration(config =>
         config.AddJsonFile("Settings.json"))
@@ -19,19 +18,11 @@ IHost host = Host.CreateDefaultBuilder()
     .ConfigureServices((context, services) =>
         services
 
-        .AddOptions<CustomizableField.Configuration>(builder =>
+        .AddCrossesZeroesGame(builder=>
             builder
-            .BindConfiguration(CustomizableField.Configuration.SectionName)
-            .Validate(CustomizableField.Configuration.Validate))
-
-        .Configure<AiPlayer.AiPlayerBehaviour>(behaviour => behaviour.wantRepeat = true)
-
-        .AddTransient<CrossesZeroesAbstract, CrossesZeroesWithAi>()
-        .AddTransient<IRealPlayer, WpfPlayer>()
-        .AddTransient<IAiPlayer, AiPlayer>()
-        .AddTransient<ICrossesZeroesField, ExtraCustomizableField>()
-
-        .AddHostedService<CrossesZeroesLoopService>()
+                .UsePlayers<AiPlayer,WpfPlayer>()
+                .UseField<ExtraCustomizableField>()
+                .UseGame<CrossesZeroesGame>())
         )
 
     .UseConsoleLifetime()

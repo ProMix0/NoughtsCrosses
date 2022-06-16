@@ -3,41 +3,49 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using CrossesZeroes.Abstractions;
 using CrossesZeroes.Services;
+using CrossesZeroes.Utils;
 
 namespace CrossesZeroes.DI
 {
     public static class DIExtensions
     {
-        public static IHostBuilder AddCrossesZeroesGame(this IHostBuilder builder) =>
-            builder
-                .ConfigureAppConfiguration(config =>
-                    config.AddJsonFile("Settings.json"))
+        public static IServiceCollection AddCrossesZeroesGame(this IServiceCollection services, Action<GameBuilder> configureBuilder, bool addLoopingService = true)
+        {
+            services.AddGameOptions();
 
-                //Добавление сервисов (классов)
-                .ConfigureServices((context, services) =>
+            GameBuilder gameBuilder = new();
+            configureBuilder(gameBuilder);
 
-                    //Позволят получить объект с настройками через DI
-                    services
-                    .AddOptions<CustomizableField.Configuration>()
-                        .BindConfiguration(CustomizableField.Configuration.SectionName)
-                        .Validate(CustomizableField.Configuration.Validate)
-                        .Services
+            if (gameBuilder.IsValid(out Exception? ex))
+            {
+                services
+                .AddTransient(gameBuilder.player1!)
+                .AddTransient(gameBuilder.player2!)
+                .AddTransient(gameBuilder.field!)
+                .AddTransient(gameBuilder.game!);
+            }
+            else
+                throw ex!;
 
-                    //AddTransient добавляет в коллекцию сервисов класс
-                    //Первое обобщение говорит о запрашиваемом классе, второе - о возвращаемом
-                    .AddTransient<CrossesZeroesAbstract, CrossesZeroesWithAi>()
-                    //.AddTransient<IRealPlayer, WpfPlayer>()
-                    .AddTransient<IAiPlayer, AiPlayer>()
-                    .AddTransient<ICrossesZeroesField, ExtraCustomizableField>()
+            if (addLoopingService)
+                services.AddHostedService<CrossesZeroesLoopService>();
 
-                    //TODO inject by single metod
-                    //.AddTransient<WpfClient.WpfClient>()
+            return services;
+        }
+                
+        
 
-                    .AddHostedService<CrossesZeroesLoopService>())
+        public static IServiceCollection AddGameOptions(this IServiceCollection services) =>
+            services
+                .AddOptions<CustomizableField.Configuration>(builder =>
+                    builder
+                    .BindConfiguration(CustomizableField.Configuration.SectionName)
+                    .Validate(CustomizableField.Configuration.Validate))
 
-                .ConfigureLogging(logging =>
-                    logging.ClearProviders());
+                .AddOptions<AiPlayer.AiPlayerBehaviour>(builder =>
+                    builder
+                    .BindConfiguration(AiPlayer.AiPlayerBehaviour.SectionName));
+
     }
 }
