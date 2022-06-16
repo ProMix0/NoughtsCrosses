@@ -53,9 +53,9 @@ namespace CrossesZeroes.Classes
 
         public Task<bool> IsRepeatWanted()
         {
-            logger.LogInformation("Repeat wanted: {RepeatWanted}", behaviour.wantRepeat);
+            logger.LogInformation("Repeat wanted: {RepeatWanted}", behaviour.WantRepeat);
 
-            return Task.FromResult(behaviour.wantRepeat);
+            return Task.FromResult(behaviour.WantRepeat);
         }
 
         public void NotifyFieldChange(Point point)
@@ -65,7 +65,9 @@ namespace CrossesZeroes.Classes
 
         public class AiPlayerBehaviour
         {
-            public bool wantRepeat;
+            public const string SectionName = nameof(AiPlayer);
+
+            public bool WantRepeat { get; set; }
         }
     }
 }
