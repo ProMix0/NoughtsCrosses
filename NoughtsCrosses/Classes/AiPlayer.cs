@@ -1,10 +1,10 @@
-﻿using CrossesZeroes.Abstractions;
-using CrossesZeroes.Common;
-using CrossesZeroes.Utils;
+﻿using NoughtsCrosses.Abstractions;
+using NoughtsCrosses.Common;
+using NoughtsCrosses.Utils;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace CrossesZeroes.Classes
+namespace NoughtsCrosses.Classes
 {
     /// <summary>
     /// Игрок-компьютер
@@ -13,7 +13,7 @@ namespace CrossesZeroes.Classes
     {
         private readonly AiPlayerBehaviour behaviour;
         private readonly ILogger<AiPlayer> logger;
-        private ICrossesZeroesField? field;
+        private IGameField? field;
 
         public AiPlayer(IOptions<AiPlayerBehaviour> behaviour, ILogger<AiPlayer> logger)
         {
@@ -26,7 +26,7 @@ namespace CrossesZeroes.Classes
             logger.LogInformation("Reporting end, victory: {Victory}", victory);
         }
 
-        public void Init(CellState mark, ICrossesZeroesField field)
+        public void Init(CellState mark, IGameField field)
         {
             logger.LogInformation("Initialization with mark: {Mark}", mark);
 

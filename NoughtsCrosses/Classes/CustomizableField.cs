@@ -1,12 +1,12 @@
-﻿using CrossesZeroes.Abstractions;
-using CrossesZeroes.Common;
-using CrossesZeroes.Utils;
+﻿using NoughtsCrosses.Abstractions;
+using NoughtsCrosses.Common;
+using NoughtsCrosses.Utils;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace CrossesZeroes.Classes
+namespace NoughtsCrosses.Classes
 {
-    public class CustomizableField : CrossesZeroesField
+    public class CustomizableField : GameField
     {
 
         public CustomizableField(IOptions<Configuration> config, ILogger<CustomizableField> logger)

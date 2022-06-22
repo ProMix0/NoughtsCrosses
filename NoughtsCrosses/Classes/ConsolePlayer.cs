@@ -1,7 +1,7 @@
-﻿using CrossesZeroes.Abstractions;
-using CrossesZeroes.Common;
+﻿using NoughtsCrosses.Abstractions;
+using NoughtsCrosses.Common;
 
-namespace CrossesZeroes.Classes
+namespace NoughtsCrosses.Classes
 {
     /// <summary>
     /// Представление физического игрока для вывода в консоль
@@ -9,7 +9,7 @@ namespace CrossesZeroes.Classes
     [Obsolete("Not supported")]
     public class ConsolePlayer : IRealPlayer
     {
-        private ICrossesZeroesField field;
+        private IGameField field;
 
         public void ReportEnd(bool victory)
         {
@@ -17,7 +17,7 @@ namespace CrossesZeroes.Classes
         }
 
         private CellState mark;
-        public void Init(CellState mark, ICrossesZeroesField field)
+        public void Init(CellState mark, IGameField field)
         {
             this.mark = mark;
             this.field = field;

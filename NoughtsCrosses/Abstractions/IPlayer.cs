@@ -1,6 +1,6 @@
-﻿using CrossesZeroes.Common;
+﻿using NoughtsCrosses.Common;
 
-namespace CrossesZeroes.Abstractions
+namespace NoughtsCrosses.Abstractions
 {
     /// <summary>
     /// Интерфейс игрока
@@ -11,7 +11,7 @@ namespace CrossesZeroes.Abstractions
         /// Ставит знак хода для игрока (крестик или нолик)
         /// </summary>
         /// <param name="mark">Вид знака</param>
-        void Init(CellState mark, ICrossesZeroesField field);
+        void Init(CellState mark, IGameField field);
 
         void NotifyFieldChange(Point point);
 

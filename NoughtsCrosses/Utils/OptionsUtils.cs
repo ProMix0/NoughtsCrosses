@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace CrossesZeroes.Utils
+namespace NoughtsCrosses.Utils
 {
     public static class OptionsUtils
     {

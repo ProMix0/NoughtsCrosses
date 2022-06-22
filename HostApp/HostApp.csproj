@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CrossesZeroes\CrossesZeroes.csproj" />
+    <ProjectReference Include="..\NoughtsCrosses\NoughtsCrosses.csproj" />
     <ProjectReference Include="..\WpfClient\WpfClient.csproj" />
   </ItemGroup>
 

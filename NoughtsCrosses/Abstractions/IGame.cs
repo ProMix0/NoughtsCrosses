@@ -1,6 +1,6 @@
-﻿namespace CrossesZeroes.Abstractions
+﻿namespace NoughtsCrosses.Abstractions
 {
-    public interface ICrossesZeroesGame
+    public interface IGame
     {
         void Restart();
         Task<bool> Turn();

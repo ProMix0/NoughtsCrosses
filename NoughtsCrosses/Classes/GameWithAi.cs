@@ -1,14 +1,14 @@
-﻿using CrossesZeroes.Abstractions;
+﻿using NoughtsCrosses.Abstractions;
 using Microsoft.Extensions.Logging;
 
-namespace CrossesZeroes.Classes
+namespace NoughtsCrosses.Classes
 {
     /// <summary>
     /// Игра в крестики-нолики человека с компьютером. Используется только в DI
     /// </summary>
-    public class CrossesZeroesWithAi : CrossesZeroesGame
+    public class GameWithAi : Game
     {
-        public CrossesZeroesWithAi(IRealPlayer player1, IAiPlayer player2, ICrossesZeroesField field, ILogger<CrossesZeroesWithAi> logger)
+        public GameWithAi(IRealPlayer player1, IAiPlayer player2, IGameField field, ILogger<GameWithAi> logger)
             : base(player1, player2, field, logger)
         { }
     }

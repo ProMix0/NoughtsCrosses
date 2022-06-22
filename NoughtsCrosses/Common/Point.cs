@@ -1,4 +1,4 @@
-﻿namespace CrossesZeroes.Common
+﻿namespace NoughtsCrosses.Common
 {
     /// <summary>
     /// Класс, представляющий координаты

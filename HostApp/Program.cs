@@ -1,12 +1,12 @@
-﻿using CrossesZeroes.Abstractions;
-using CrossesZeroes.Classes;
-using CrossesZeroes.Services;
-using CrossesZeroes.Utils;
+﻿using NoughtsCrosses.Abstractions;
+using NoughtsCrosses.Classes;
+using NoughtsCrosses.Services;
+using NoughtsCrosses.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WpfClient;
-using CrossesZeroes.DI;
+using NoughtsCrosses.DI;
 
 Console.WriteLine("Building host");
 
@@ -18,11 +18,11 @@ IHost host = Host.CreateDefaultBuilder()
     .ConfigureServices((context, services) =>
         services
 
-        .AddCrossesZeroesGame(builder=>
+        .AddNoughtsCrossesGame(builder =>
             builder
-                .UsePlayers<AiPlayer,WpfPlayer>()
-                .UseField<ExtraCustomizableField>()
-                .UseGame<CrossesZeroesGame>())
+                .UsePlayers<AiPlayer, WpfPlayer>()
+                .UseField<OptimizedField>()
+                .UseGame<Game>())
         )
 
     .UseConsoleLifetime()

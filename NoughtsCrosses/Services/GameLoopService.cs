@@ -1,18 +1,18 @@
 ﻿using BetterHostedServices;
-using CrossesZeroes.Abstractions;
-using CrossesZeroes.Utils;
+using NoughtsCrosses.Abstractions;
+using NoughtsCrosses.Utils;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace CrossesZeroes.Services
+namespace NoughtsCrosses.Services
 {
-    public class CrossesZeroesLoopService : CriticalBackgroundService
+    public class GameLoopService : CriticalBackgroundService
     {
-        private readonly CrossesZeroesAbstract game;
+        private readonly AbstractGame game;
         private readonly IHostApplicationLifetime lifetime;
-        private readonly ILogger<CrossesZeroesLoopService> logger;
+        private readonly ILogger<GameLoopService> logger;
 
-        public CrossesZeroesLoopService(CrossesZeroesAbstract game, IHostApplicationLifetime lifetime, ILogger<CrossesZeroesLoopService> logger)
+        public GameLoopService(AbstractGame game, IHostApplicationLifetime lifetime, ILogger<GameLoopService> logger)
             : base(null)
         {
             this.game = game;

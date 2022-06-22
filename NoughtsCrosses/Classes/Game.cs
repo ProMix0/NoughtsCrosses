@@ -1,16 +1,16 @@
-﻿using CrossesZeroes.Abstractions;
-using CrossesZeroes.Common;
+﻿using NoughtsCrosses.Abstractions;
+using NoughtsCrosses.Common;
 using Microsoft.Extensions.Logging;
 
-namespace CrossesZeroes.Classes
+namespace NoughtsCrosses.Classes
 {
     /// <summary>
     /// Реализация игры крестики-нолики
     /// </summary>
-    public class CrossesZeroesGame : CrossesZeroesAbstract
+    public class Game : AbstractGame
     {
         /// <inheritdoc/>
-        public CrossesZeroesGame(IPlayer player1, IPlayer player2, ICrossesZeroesField field,ILogger<CrossesZeroesGame> logger)
+        public Game(IPlayer player1, IPlayer player2, IGameField field,ILogger<Game> logger)
             ///Вызов конструктора базового класса с параметрами
             : base(player1, player2, field,logger)
         {

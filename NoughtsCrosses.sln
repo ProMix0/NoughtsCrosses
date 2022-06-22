@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfClient", "WpfClient\WpfC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HostApp", "HostApp\HostApp.csproj", "{A8EC19AB-B51B-447D-BF05-B9952E9DFA1E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossesZeroes", "CrossesZeroes\CrossesZeroes.csproj", "{264DB206-3C05-4EC6-B051-FF59C2C44466}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoughtsCrosses", "NoughtsCrosses\NoughtsCrosses.csproj", "{1A0BB41E-AAE5-401F-BFA5-E070A8181F53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{A8EC19AB-B51B-447D-BF05-B9952E9DFA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8EC19AB-B51B-447D-BF05-B9952E9DFA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8EC19AB-B51B-447D-BF05-B9952E9DFA1E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{264DB206-3C05-4EC6-B051-FF59C2C44466}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{264DB206-3C05-4EC6-B051-FF59C2C44466}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{264DB206-3C05-4EC6-B051-FF59C2C44466}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{264DB206-3C05-4EC6-B051-FF59C2C44466}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A0BB41E-AAE5-401F-BFA5-E070A8181F53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A0BB41E-AAE5-401F-BFA5-E070A8181F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A0BB41E-AAE5-401F-BFA5-E070A8181F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A0BB41E-AAE5-401F-BFA5-E070A8181F53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

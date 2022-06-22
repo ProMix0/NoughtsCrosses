@@ -1,15 +1,16 @@
-﻿using CrossesZeroes.Common;
+﻿using NoughtsCrosses.Classes;
+using NoughtsCrosses.Common;
 
-namespace CrossesZeroes.Abstractions
+namespace NoughtsCrosses.Abstractions
 {
-    public interface ICrossesZeroesField
+    public interface IGameField
     {
         CellState this[int i, int j] { get; }
 
         int Width { get; }
         int Height { get; }
 
-        ICrossesZeroesField AsReadonly();
+        ReadonlyField AsReadonly();
         void Clear();
         bool IsEndGame(out CellState winner);
         void Set(Point point, CellState markType);

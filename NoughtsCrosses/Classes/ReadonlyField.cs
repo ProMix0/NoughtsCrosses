@@ -1,24 +1,24 @@
-﻿using CrossesZeroes.Abstractions;
-using CrossesZeroes.Common;
+﻿using NoughtsCrosses.Abstractions;
+using NoughtsCrosses.Common;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using CrossesZeroes.Utils;
+using NoughtsCrosses.Utils;
 
-namespace CrossesZeroes.Classes
+namespace NoughtsCrosses.Classes
 {
     /// <summary>
     /// Поле игры в крестики-нолики только для чтения
     /// </summary>
-    public sealed class ReadonlyField : ICrossesZeroesField
+    public sealed class ReadonlyField : IGameField
     {
-        private readonly ICrossesZeroesField proxied;
-        private readonly ILogger<ICrossesZeroesField> logger;
+        private readonly IGameField proxied;
+        private readonly ILogger<IGameField> logger;
 
         /// <summary>
         /// Создаёт новый экземпляр
         /// </summary>
         /// <param name="proxied">Замещаемый экземпляр</param>
-        public ReadonlyField(ICrossesZeroesField proxied, ILogger<ICrossesZeroesField> logger)
+        public ReadonlyField(IGameField proxied, ILogger<IGameField> logger)
         {
             this.proxied = proxied;
             this.logger = logger;
@@ -34,7 +34,7 @@ namespace CrossesZeroes.Classes
             throw logger.LogExceptionMessage(new InvalidOperationException("Attempts to Set() in ReadonlyField"));
         }
 
-        public ICrossesZeroesField AsReadonly() => this;
+        public ReadonlyField AsReadonly() => this;
 
         public void Clear()
         {

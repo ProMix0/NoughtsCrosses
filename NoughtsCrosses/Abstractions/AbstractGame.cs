@@ -1,18 +1,18 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace CrossesZeroes.Abstractions
+namespace NoughtsCrosses.Abstractions
 {
     /// <summary>
     /// Базовый класс для всех реализаций игры крестики-нолики
     /// </summary>
-    public abstract class CrossesZeroesAbstract : ICrossesZeroesGame
+    public abstract class AbstractGame : IGame
     {
         //Игроки
         protected IPlayer cross;
         protected IPlayer zero;
         //Поле
-        protected readonly ICrossesZeroesField field;
-        protected readonly ILogger<CrossesZeroesAbstract> logger;
+        protected readonly IGameField field;
+        protected readonly ILogger<AbstractGame> logger;
 
         /// <summary>
         /// Конструктор, через который внедряются зависимости класса
@@ -20,7 +20,7 @@ namespace CrossesZeroes.Abstractions
         /// <param name="player1">Первый игрок</param>
         /// <param name="player2">Второй игрок</param>
         /// <param name="field">Поле</param>
-        public CrossesZeroesAbstract(IPlayer player1, IPlayer player2, ICrossesZeroesField field, ILogger<CrossesZeroesAbstract> logger)
+        public AbstractGame(IPlayer player1, IPlayer player2, IGameField field, ILogger<AbstractGame> logger)
         {
             cross = player1;
             zero = player2;

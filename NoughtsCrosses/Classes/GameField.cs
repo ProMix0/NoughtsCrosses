@@ -1,19 +1,19 @@
-﻿using CrossesZeroes.Abstractions;
-using CrossesZeroes.Common;
-using CrossesZeroes.Utils;
+﻿using NoughtsCrosses.Abstractions;
+using NoughtsCrosses.Common;
+using NoughtsCrosses.Utils;
 using Microsoft.Extensions.Logging;
 
-namespace CrossesZeroes.Classes
+namespace NoughtsCrosses.Classes
 {
     /// <summary>
     /// Поле для крестиков-ноликов
     /// </summary>
-    public class CrossesZeroesField : ICrossesZeroesField
+    public class GameField : IGameField
     {
         //Матрица клеток
         protected CellState[,] field = new CellState[3, 3];
 
-        public CrossesZeroesField(ILogger<CrossesZeroesField> logger)
+        public GameField(ILogger<GameField> logger)
         {
             readonlyField = new(this,logger);
             this.logger = logger;
@@ -170,12 +170,12 @@ namespace CrossesZeroes.Classes
         }
 
         protected readonly ReadonlyField readonlyField;
-        protected readonly ILogger<CrossesZeroesField> logger;
+        protected readonly ILogger<GameField> logger;
 
         /// <summary>
         /// Возвращает объект только для чтения
         /// </summary>
         /// <returns>Объект только для чтения</returns>
-        public virtual ICrossesZeroesField AsReadonly() => readonlyField;
+        public virtual ReadonlyField AsReadonly() => readonlyField;
     }
 }

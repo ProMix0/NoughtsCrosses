@@ -1,12 +1,12 @@
-﻿using CrossesZeroes.Common;
+﻿using NoughtsCrosses.Common;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace CrossesZeroes.Classes
+namespace NoughtsCrosses.Classes
 {
-    public class ExtraCustomizableField : CustomizableField
+    public class OptimizedField : CustomizableField
     {
-        public ExtraCustomizableField(IOptions<Configuration> config, ILogger<ExtraCustomizableField> logger) : base(config, logger)
+        public OptimizedField(IOptions<Configuration> config, ILogger<OptimizedField> logger) : base(config, logger)
         {
         }
 

@@ -1,16 +1,17 @@
-﻿using CrossesZeroes.Classes;
+﻿using NoughtsCrosses.Classes;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using CrossesZeroes.Services;
-using CrossesZeroes.Utils;
+using NoughtsCrosses.Abstractions;
+using NoughtsCrosses.Services;
+using NoughtsCrosses.Utils;
 
-namespace CrossesZeroes.DI
+namespace NoughtsCrosses.DI
 {
     public static class DIExtensions
     {
-        public static IServiceCollection AddCrossesZeroesGame(this IServiceCollection services, Action<GameBuilder> configureBuilder, bool addLoopingService = true)
+        public static IServiceCollection AddNoughtsCrossesGame(this IServiceCollection services, Action<GameBuilder> configureBuilder, bool addLoopingService = true)
         {
             services.AddGameOptions();
 
@@ -29,12 +30,12 @@ namespace CrossesZeroes.DI
                 throw ex!;
 
             if (addLoopingService)
-                services.AddHostedService<CrossesZeroesLoopService>();
+                services.AddHostedService<GameLoopService>();
 
             return services;
         }
-                
-        
+
+
 
         public static IServiceCollection AddGameOptions(this IServiceCollection services) =>
             services
@@ -46,6 +47,5 @@ namespace CrossesZeroes.DI
                 .AddOptions<AiPlayer.AiPlayerBehaviour>(builder =>
                     builder
                     .BindConfiguration(AiPlayer.AiPlayerBehaviour.SectionName));
-
     }
 }

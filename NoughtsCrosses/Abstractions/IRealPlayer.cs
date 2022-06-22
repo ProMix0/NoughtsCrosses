@@ -1,4 +1,4 @@
-﻿namespace CrossesZeroes.Abstractions
+﻿namespace NoughtsCrosses.Abstractions
 {
     /// <summary>
     /// Интерфейс физического игрока. Используется только для DI

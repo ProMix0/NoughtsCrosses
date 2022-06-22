@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using CrossesZeroes.Abstractions;
-using CrossesZeroes.Common;
+using NoughtsCrosses.Abstractions;
+using NoughtsCrosses.Common;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +19,7 @@ namespace WpfClient
         protected Button[,]? btnMatr = null;
         protected TaskCompletionSource<Button>? btnCompletionSource = null;
 
-        private ICrossesZeroesField? field;
+        private IGameField? field;
         private readonly ILogger<WpfPlayer> logger;
 
         public WpfPlayer(ILogger<WpfPlayer> logger)
@@ -57,7 +57,7 @@ namespace WpfClient
             //PrintField(field);
         }
 
-        public void Init(CellState mark, ICrossesZeroesField field)
+        public void Init(CellState mark, IGameField field)
         {
             this.field = field;
 
@@ -83,7 +83,7 @@ namespace WpfClient
                 });
         }
 
-        public async Task<CrossesZeroes.Common.Point> Turn()
+        public async Task<NoughtsCrosses.Common.Point> Turn()
         {
             EnsureGridSize(field!.Height, field.Width);
             //PrintField(field);
@@ -100,7 +100,7 @@ namespace WpfClient
             throw new Exception("Button outside field");
         }
 
-        private void PrintField(ICrossesZeroesField field)
+        private void PrintField(IGameField field)
         {
             Dispatcher.FromThread(windowThread).Invoke(() =>
             {
@@ -174,7 +174,7 @@ namespace WpfClient
             return completion.Task;
         }
 
-        public void NotifyFieldChange(CrossesZeroes.Common.Point point)
+        public void NotifyFieldChange(NoughtsCrosses.Common.Point point)
         {
             Dispatcher.FromThread(windowThread).Invoke(() =>
             {

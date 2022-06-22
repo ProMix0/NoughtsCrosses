@@ -1,6 +1,6 @@
-﻿using CrossesZeroes.Abstractions;
+﻿using NoughtsCrosses.Abstractions;
 
-namespace CrossesZeroes.DI
+namespace NoughtsCrosses.DI
 {
     public class GameBuilder
     {
@@ -39,7 +39,7 @@ namespace CrossesZeroes.DI
         }
 
         public GameBuilder UseField<TField>()
-            where TField : ICrossesZeroesField
+            where TField : IGameField
         {
             field = typeof(TField);
 
@@ -47,7 +47,7 @@ namespace CrossesZeroes.DI
         }
 
         public GameBuilder UseGame<TGame>()
-            where TGame : ICrossesZeroesGame
+            where TGame : IGame
         {
             game = typeof(TGame);
 

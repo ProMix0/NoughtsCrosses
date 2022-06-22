@@ -1,4 +1,4 @@
-﻿namespace CrossesZeroes.Common
+﻿namespace NoughtsCrosses.Common
 {
     /// <summary>
     /// Перечисление, отражающее текущее состояние клетки игрового поля
