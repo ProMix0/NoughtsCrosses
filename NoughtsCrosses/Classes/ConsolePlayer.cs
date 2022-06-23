@@ -7,7 +7,7 @@ namespace NoughtsCrosses.Classes
     /// Представление физического игрока для вывода в консоль
     /// </summary>
     [Obsolete("Not supported")]
-    public class ConsolePlayer : IRealPlayer
+    public class ConsolePlayer : IPlayer
     {
         private IGameField field;
 

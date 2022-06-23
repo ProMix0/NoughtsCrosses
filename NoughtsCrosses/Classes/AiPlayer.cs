@@ -9,7 +9,7 @@ namespace NoughtsCrosses.Classes
     /// <summary>
     /// Игрок-компьютер
     /// </summary>
-    public class AiPlayer : IAiPlayer
+    public class AiPlayer : IPlayer
     {
         private readonly AiPlayerBehaviour behaviour;
         private readonly ILogger<AiPlayer> logger;
