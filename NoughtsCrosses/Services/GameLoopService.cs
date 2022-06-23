@@ -8,11 +8,11 @@ namespace NoughtsCrosses.Services
 {
     public class GameLoopService : CriticalBackgroundService
     {
-        private readonly AbstractGame game;
+        private readonly IGame game;
         private readonly IHostApplicationLifetime lifetime;
         private readonly ILogger<GameLoopService> logger;
 
-        public GameLoopService(AbstractGame game, IHostApplicationLifetime lifetime, ILogger<GameLoopService> logger)
+        public GameLoopService(IGame game, IHostApplicationLifetime lifetime, ILogger<GameLoopService> logger)
             : base(null)
         {
             this.game = game;
