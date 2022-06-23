@@ -1,55 +1,38 @@
-﻿using NoughtsCrosses.Abstractions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using NoughtsCrosses.Abstractions;
+using NoughtsCrosses.Utils;
 
 namespace NoughtsCrosses.DI
 {
     public class GameBuilder
     {
-        internal Type? player1, player2, field, game;
+        private readonly IServiceCollection services;
 
-        internal bool IsValid(out Exception? ex)
+        internal GameBuilder(IServiceCollection services)
         {
-            if (player1 is null || player2 is null)
-            {
-                ex = new InvalidOperationException("Players must be specificated");
-                return false;
-            }
-            if (field is null)
-            {
-                ex = new InvalidOperationException("Field must be specificated");
-                return false;
-            }
-            if (game is null)
-            {
-                ex = new InvalidOperationException("Game must be specificated");
-                return false;
-            }
-
-            ex = null;
-            return true;
+            this.services = services;
         }
 
-        public GameBuilder UsePlayers<TPlayer1, TPlayer2>()
-            where TPlayer1 : IPlayer
-            where TPlayer2 : IPlayer
+        public GameBuilder UsePlayer<TPlayer>()
+            where TPlayer : class, IPlayer
         {
-            player1 = typeof(TPlayer1);
-            player2 = typeof(TPlayer2);
+            services.AddTypeAndImplementation<IPlayer, TPlayer>();
 
             return this;
         }
 
         public GameBuilder UseField<TField>()
-            where TField : IGameField
+            where TField : class, IGameField
         {
-            field = typeof(TField);
+            services.AddTypeAndImplementation<IGameField, TField>();
 
             return this;
         }
 
         public GameBuilder UseGame<TGame>()
-            where TGame : IGame
+            where TGame : class, IGame
         {
-            game = typeof(TGame);
+            services.AddTypeAndImplementation<IGame, TGame>();
 
             return this;
         }
