@@ -9,9 +9,9 @@ using NoughtsCrosses.Common;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace WpfClient
+namespace NoughtsCrosses.WpfClient
 {
-    public class WpfPlayer : IRealPlayer
+    public class WpfPlayer : IPlayer
     {
         private IWpfView? client;
         Thread windowThread;
@@ -60,6 +60,7 @@ namespace WpfClient
         public void Init(CellState mark, IGameField field)
         {
             this.field = field;
+            EnsureGridSize(field!.Height, field.Width);
 
             string markStr = mark switch
             {
@@ -83,7 +84,7 @@ namespace WpfClient
                 });
         }
 
-        public async Task<NoughtsCrosses.Common.Point> Turn()
+        public async Task<Common.Point> Turn()
         {
             EnsureGridSize(field!.Height, field.Width);
             //PrintField(field);
@@ -174,7 +175,7 @@ namespace WpfClient
             return completion.Task;
         }
 
-        public void NotifyFieldChange(NoughtsCrosses.Common.Point point)
+        public void NotifyFieldChange(Common.Point point)
         {
             Dispatcher.FromThread(windowThread).Invoke(() =>
             {

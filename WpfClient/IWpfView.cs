@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace WpfClient
+namespace NoughtsCrosses.WpfClient
 {
     public interface IWpfView
     {
