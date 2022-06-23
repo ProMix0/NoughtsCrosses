@@ -10,9 +10,9 @@ namespace NoughtsCrosses.Classes
     public class Game : AbstractGame
     {
         /// <inheritdoc/>
-        public Game(IPlayer player1, IPlayer player2, IGameField field,ILogger<Game> logger)
+        public Game(IPlayer player1, IPlayer player2, IGameField field, ILogger<Game> logger)
             ///Вызов конструктора базового класса с параметрами
-            : base(player1, player2, field,logger)
+            : base(player1, player2, field, logger)
         {
             cross.Init(CellState.Cross, field.AsReadonly());
             zero.Init(CellState.Zero, field.AsReadonly());
@@ -35,7 +35,7 @@ namespace NoughtsCrosses.Classes
 
             async Task MakeTurn(CellState player)
             {
-                Point turnResult = await cross.Turn();
+                Point turnResult = await (player == CellState.Cross ? cross : zero).Turn();
                 field.Set(turnResult, player);
                 zero.NotifyFieldChange(turnResult);
                 cross.NotifyFieldChange(turnResult);
