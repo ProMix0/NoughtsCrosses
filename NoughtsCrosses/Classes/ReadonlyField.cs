@@ -31,16 +31,16 @@ namespace NoughtsCrosses.Classes
 
         public void Set(Point point, CellState markType)
         {
-            throw logger.LogExceptionMessage(
-                new InvalidOperationException($"You can't call {nameof(Set)} in ReadonlyField"));
+            throw new InvalidOperationException($"You can't call {nameof(Set)} in ReadonlyField")
+                .LogExceptionMessage(logger);
         }
 
         public ReadonlyField AsReadonly() => this;
 
         public void Clear()
         {
-            throw logger.LogExceptionMessage(
-                new InvalidOperationException($"You can't call {nameof(Clear)} in ReadonlyField"));
+            throw new InvalidOperationException($"You can't call {nameof(Clear)} in ReadonlyField")
+                .LogExceptionMessage(logger);
         }
 
         public bool IsEndGame(out CellState winner) => proxied.IsEndGame(out winner);

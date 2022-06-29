@@ -25,7 +25,7 @@ namespace NoughtsCrosses.Services
 
         protected override void OnError(Exception exceptionFromExecuteAsync)
         {
-            throw logger.LogExceptionMessage(exceptionFromExecuteAsync);
+            throw exceptionFromExecuteAsync.LogExceptionMessage(logger);
         }
 
         protected override async Task ExecuteAsync(CancellationToken token)

@@ -88,10 +88,10 @@ namespace NoughtsCrosses.Classes
         public virtual void Set(Point point, CellState markType)
         {
             if (markType == CellState.Empty)
-                throw logger.LogExceptionMessage(new ArgumentException("Unknown cell state", nameof(markType)));
+                throw new ArgumentException("Unknown cell state", nameof(markType)).LogExceptionMessage(logger);
 
             if (field[point.X, point.Y] != CellState.Empty)
-                throw logger.LogExceptionMessage(new ArgumentException("Cell already filled", nameof(point)));
+                throw new ArgumentException("Cell already filled", nameof(point)).LogExceptionMessage(logger);
 
             field[point.X, point.Y] = markType;
         }

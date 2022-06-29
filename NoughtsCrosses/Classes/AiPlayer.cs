@@ -48,7 +48,7 @@ namespace NoughtsCrosses.Classes
                     return Task.FromResult(point);
                 }
 
-            throw logger.LogExceptionMessage(new InvalidOperationException("No one empty cells"));
+            throw new InvalidOperationException("No one empty cells").LogExceptionMessage(logger);
         }
 
         public Task<bool> IsRepeatWanted()

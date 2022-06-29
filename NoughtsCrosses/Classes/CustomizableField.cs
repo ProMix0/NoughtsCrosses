@@ -38,7 +38,7 @@ namespace NoughtsCrosses.Classes
             protected set
             {
                 if (value <= 0)
-                    throw logger.LogExceptionMessage(new ArgumentException("Must be more than zero", nameof(Width)));
+                    throw new ArgumentException("Must be more than zero", nameof(Width)).LogExceptionMessage(logger);
                 width = value;
             }
         }
@@ -49,7 +49,7 @@ namespace NoughtsCrosses.Classes
             protected set
             {
                 if (value <= 0)
-                    throw logger.LogExceptionMessage(new ArgumentException("Must be more than zero", nameof(Height)));
+                    throw new ArgumentException("Must be more than zero", nameof(Height)).LogExceptionMessage(logger);
                 height = value;
             }
         }
@@ -60,8 +60,8 @@ namespace NoughtsCrosses.Classes
             set
             {
                 if (value <= 0)
-                    throw logger.LogExceptionMessage(new ArgumentException("Must be more than zero",
-                        nameof(WinSequenceLength)));
+                    throw new ArgumentException("Must be more than zero", nameof(WinSequenceLength))
+                        .LogExceptionMessage(logger);
                 winSequenceLength = value;
             }
         }
