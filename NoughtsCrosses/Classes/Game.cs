@@ -14,8 +14,6 @@ namespace NoughtsCrosses.Classes
         public Game(IPlayer player1, IPlayer player2, IGameField field, ILogger<Game> logger)
             : base(player1, player2, field, logger)
         {
-            cross.Init(CellState.Cross, field.AsReadonly());
-            zero.Init(CellState.Zero, field.AsReadonly());
         }
 
         public async override Task<bool> Turn()

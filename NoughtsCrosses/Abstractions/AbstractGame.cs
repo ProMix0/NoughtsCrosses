@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using NoughtsCrosses.Common;
 
 namespace NoughtsCrosses.Abstractions
 {
@@ -33,6 +34,9 @@ namespace NoughtsCrosses.Abstractions
             zero = player2;
             this.field = field;
             this.logger = logger;
+
+            cross.Init(CellState.Cross, field.AsReadonly());
+            zero.Init(CellState.Zero, field.AsReadonly());
         }
 
         public abstract void Restart();
