@@ -3,31 +3,39 @@
 namespace NoughtsCrosses.Abstractions
 {
     /// <summary>
-    /// Интерфейс игрока
+    /// Represent game player
     /// </summary>
     public interface IPlayer
     {
         /// <summary>
-        /// Ставит знак хода для игрока (крестик или нолик)
+        /// Initialize player
         /// </summary>
-        /// <param name="mark">Вид знака</param>
+        /// <param name="mark">Player's symbol in game</param>
+        /// <param name="field">Reference to game field</param>
         void Init(CellState mark, IGameField field);
 
+        /// <summary>
+        /// Used by <see cref="IGame"/> to notify what cell was changed
+        /// </summary>
+        /// <param name="point">Index of changed cell</param>
         void NotifyFieldChange(Point point);
 
         /// <summary>
-        /// Метод хода для игрока
+        /// Allows player to make his turn
         /// </summary>
-        /// <param name="field">Текущее состояние поля</param>
-        /// <returns>Точка, которая должна быть отмечена в результате хода</returns>
+        /// <returns>Index of cell which should be marked</returns>
         Task<Point> Turn();
 
         /// <summary>
-        /// Метод, сообщающий игроку о завершении игры
+        /// Used by <see cref="IGame"/> to notify game end
         /// </summary>
-        /// <param name="victory">Победил ли данный игрок</param>
+        /// <param name="victory">Does the player win</param>
         void ReportEnd(bool victory);
 
+        /// <summary>
+        /// Allows player to make decision if he want to play again
+        /// </summary>
+        /// <returns>True if want</returns>
         Task<bool> IsRepeatWanted();
     }
 }

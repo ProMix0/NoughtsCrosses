@@ -1,7 +1,7 @@
 ﻿namespace NoughtsCrosses.Common
 {
     /// <summary>
-    /// Перечисление, отражающее текущее состояние клетки игрового поля
+    /// Available cells state enumeration
     /// </summary>
     public enum CellState
     {

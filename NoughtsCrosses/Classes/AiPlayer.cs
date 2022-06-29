@@ -1,13 +1,13 @@
-﻿using NoughtsCrosses.Abstractions;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using NoughtsCrosses.Abstractions;
 using NoughtsCrosses.Common;
 using NoughtsCrosses.Utils;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace NoughtsCrosses.Classes
 {
     /// <summary>
-    /// Игрок-компьютер
+    /// Basic AI behavior. Just marks empty cells from left up to right down
     /// </summary>
     public class AiPlayer : IPlayer
     {
@@ -37,16 +37,16 @@ namespace NoughtsCrosses.Classes
         {
             logger.LogInformation("Turning");
 
-            //Перебор всех клеток в поиске свободных
+            //Enumerating all cells to find empty
             for (int i = 0; i < field!.Height; i++)
-                for (int j = 0; j < field.Width; j++)
-                    if (field[i, j] == CellState.Empty)
-                    {
-                        Point point = new(i, j);
+            for (int j = 0; j < field.Width; j++)
+                if (field[i, j] == CellState.Empty)
+                {
+                    Point point = new(i, j);
 
-                        logger.LogDebug("Turning result: {Point}", point);
-                        return Task.FromResult(point);
-                    }
+                    logger.LogDebug("Turning result: {Point}", point);
+                    return Task.FromResult(point);
+                }
 
             throw logger.LogExceptionMessage(new InvalidOperationException("No one empty cells"));
         }
@@ -63,10 +63,19 @@ namespace NoughtsCrosses.Classes
             logger.LogInformation("Field changed at {Point}", point);
         }
 
+        /// <summary>
+        /// Options class for <see cref="AiPlayer"/>
+        /// </summary>
         public class AiPlayerBehaviour
         {
+            /// <summary>
+            /// Default section name in config
+            /// </summary>
             public const string SectionName = nameof(AiPlayer);
 
+            /// <summary>
+            /// Does should <see cref="AiPlayer"/> want repeat or not
+            /// </summary>
             public bool WantRepeat { get; set; }
         }
     }

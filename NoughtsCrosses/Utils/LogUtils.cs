@@ -4,7 +4,16 @@ namespace NoughtsCrosses.Utils
 {
     public static class LogUtils
     {
-        public static TException LogExceptionMessage<TException>(this ILogger logger, TException exception, LogLevel logLevel = LogLevel.Critical)
+        /// <summary>
+        /// Log <see cref="TException"/> and return it
+        /// </summary>
+        /// <param name="logger">Logger instance</param>
+        /// <param name="exception">Exception to log</param>
+        /// <param name="logLevel">Specify <see cref="LogLevel"/>. Default is <see cref="LogLevel.Critical"/></param>
+        /// <typeparam name="TException"></typeparam>
+        /// <returns>Return exception to further manipulations</returns>
+        public static TException LogExceptionMessage<TException>(this ILogger logger, TException exception,
+            LogLevel logLevel = LogLevel.Critical)
             where TException : Exception
         {
             logger.Log(logLevel, exception, "Exception was thrown: {Message}", exception.Message);

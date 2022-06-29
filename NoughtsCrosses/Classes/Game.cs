@@ -1,6 +1,6 @@
-﻿using NoughtsCrosses.Abstractions;
+﻿using Microsoft.Extensions.Logging;
+using NoughtsCrosses.Abstractions;
 using NoughtsCrosses.Common;
-using Microsoft.Extensions.Logging;
 
 namespace NoughtsCrosses.Classes
 {
@@ -9,18 +9,15 @@ namespace NoughtsCrosses.Classes
     /// </summary>
     public class Game : AbstractGame
     {
-        /// <inheritdoc/>
+        private bool gameCompleted = false;
+
         public Game(IPlayer player1, IPlayer player2, IGameField field, ILogger<Game> logger)
-            ///Вызов конструктора базового класса с параметрами
             : base(player1, player2, field, logger)
         {
             cross.Init(CellState.Cross, field.AsReadonly());
             zero.Init(CellState.Zero, field.AsReadonly());
         }
 
-        private bool gameCompleted = false;
-
-        /// <inheritdoc/>
         public async override Task<bool> Turn()
         {
             if (gameCompleted) return false;
@@ -33,6 +30,8 @@ namespace NoughtsCrosses.Classes
 
             return true;
 
+            // Allows player with specified symbol make turn
+            // And notify both players about that
             async Task MakeTurn(CellState player)
             {
                 Point turnResult = await (player == CellState.Cross ? cross : zero).Turn();
@@ -42,10 +41,10 @@ namespace NoughtsCrosses.Classes
                 CheckWin();
             }
 
+            // Check win, notify players and set game state to completed if true
             void CheckWin()
             {
                 if (field.IsEndGame(out CellState winner))
-                {
                     switch (winner)
                     {
                         case CellState.Empty:
@@ -64,7 +63,6 @@ namespace NoughtsCrosses.Classes
                             gameCompleted = true;
                             break;
                     }
-                }
             }
         }
 
@@ -72,7 +70,7 @@ namespace NoughtsCrosses.Classes
         {
             gameCompleted = false;
 
-            //Смена знака игроков
+            // Swap players symbols
             (zero, cross) = (cross, zero);
 
             cross.Init(CellState.Cross, field.AsReadonly());

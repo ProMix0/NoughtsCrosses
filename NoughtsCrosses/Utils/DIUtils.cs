@@ -1,18 +1,21 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoughtsCrosses.Utils
 {
     public static class DIUtils
     {
-        public static IServiceCollection AddTypeAndImplementation<TType, TImplementation>(this IServiceCollection services)
+        /// <summary>
+        /// Register service both as <see cref="TType"/> and <see cref="TImplementation"/>
+        /// </summary>
+        /// <param name="services">Specified ServiceCollection to add</param>
+        /// <typeparam name="TType">Interface/abstract class type</typeparam>
+        /// <typeparam name="TImplementation">Implementation type</typeparam>
+        /// <returns>ServiceCollection to chaining</returns>
+        public static IServiceCollection AddTypeAndImplementation<TType, TImplementation>(
+            this IServiceCollection services)
             where TImplementation : class, TType
             where TType : class
             =>
-            services.AddTransient<TType, TImplementation>().AddTransient<TImplementation>();
+                services.AddTransient<TType, TImplementation>().AddTransient<TImplementation>();
     }
 }

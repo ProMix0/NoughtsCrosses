@@ -1,11 +1,14 @@
 ﻿using BetterHostedServices;
-using NoughtsCrosses.Abstractions;
-using NoughtsCrosses.Utils;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NoughtsCrosses.Abstractions;
+using NoughtsCrosses.Utils;
 
 namespace NoughtsCrosses.Services
 {
+    /// <summary>
+    /// Service for simple run the game
+    /// </summary>
     public class GameLoopService : CriticalBackgroundService
     {
         private readonly IGame game;
@@ -25,7 +28,7 @@ namespace NoughtsCrosses.Services
             throw logger.LogExceptionMessage(exceptionFromExecuteAsync);
         }
 
-        protected async override Task ExecuteAsync(CancellationToken token)
+        protected override async Task ExecuteAsync(CancellationToken token)
         {
             while (!token.IsCancellationRequested)
             {

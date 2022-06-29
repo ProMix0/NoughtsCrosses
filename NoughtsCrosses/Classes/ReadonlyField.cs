@@ -1,23 +1,23 @@
-﻿using NoughtsCrosses.Abstractions;
+﻿using Microsoft.Extensions.Logging;
+using NoughtsCrosses.Abstractions;
 using NoughtsCrosses.Common;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
 using NoughtsCrosses.Utils;
 
 namespace NoughtsCrosses.Classes
 {
     /// <summary>
-    /// Поле игры в крестики-нолики только для чтения
+    /// Read-only reference to <see cref="IGameField"/>
     /// </summary>
     public sealed class ReadonlyField : IGameField
     {
-        private readonly IGameField proxied;
         private readonly ILogger<IGameField> logger;
+        private readonly IGameField proxied;
 
         /// <summary>
-        /// Создаёт новый экземпляр
+        /// Create new reference
         /// </summary>
-        /// <param name="proxied">Замещаемый экземпляр</param>
+        /// <param name="proxied">Proxied instance</param>
+        /// <param name="logger">Logger</param>
         public ReadonlyField(IGameField proxied, ILogger<IGameField> logger)
         {
             this.proxied = proxied;
@@ -31,14 +31,16 @@ namespace NoughtsCrosses.Classes
 
         public void Set(Point point, CellState markType)
         {
-            throw logger.LogExceptionMessage(new InvalidOperationException("Attempts to Set() in ReadonlyField"));
+            throw logger.LogExceptionMessage(
+                new InvalidOperationException($"You can't call {nameof(Set)} in ReadonlyField"));
         }
 
         public ReadonlyField AsReadonly() => this;
 
         public void Clear()
         {
-            throw logger.LogExceptionMessage(new InvalidOperationException("Attempts to Clear() in ReadonlyField"));
+            throw logger.LogExceptionMessage(
+                new InvalidOperationException($"You can't call {nameof(Clear)} in ReadonlyField"));
         }
 
         public bool IsEndGame(out CellState winner) => proxied.IsEndGame(out winner);

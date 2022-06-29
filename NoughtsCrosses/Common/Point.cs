@@ -1,21 +1,21 @@
 ﻿namespace NoughtsCrosses.Common
 {
     /// <summary>
-    /// Класс, представляющий координаты
+    /// Basic two indexes class
     /// </summary>
-    public struct Point
+    public readonly struct Point
     {
-        public readonly int x, y;
+        public readonly int X, Y;
 
         public Point(int x, int y)
         {
-            this.x = x;
-            this.y = y;
+            this.X = x;
+            this.Y = y;
         }
 
         public override string ToString()
         {
-            return $"X: {x}, Y: {y}";
+            return $"X: {X}, Y: {Y}";
         }
     }
 }

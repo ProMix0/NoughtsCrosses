@@ -4,6 +4,9 @@ using NoughtsCrosses.Utils;
 
 namespace NoughtsCrosses.DI
 {
+    /// <summary>
+    /// Class for configure game services
+    /// </summary>
     public class GameBuilder
     {
         private readonly IServiceCollection services;
@@ -13,7 +16,12 @@ namespace NoughtsCrosses.DI
             this.services = services;
         }
 
-        public GameBuilder UsePlayer<TPlayer>()
+        /// <summary>
+        /// Add specified player to container
+        /// </summary>
+        /// <typeparam name="TPlayer">Player type</typeparam>
+        /// <returns>GameBuilder to chaining</returns>
+        public GameBuilder AddPlayer<TPlayer>()
             where TPlayer : class, IPlayer
         {
             services.AddTypeAndImplementation<IPlayer, TPlayer>();
@@ -21,7 +29,12 @@ namespace NoughtsCrosses.DI
             return this;
         }
 
-        public GameBuilder UseField<TField>()
+        /// <summary>
+        /// Add specified field to container
+        /// </summary>
+        /// <typeparam name="TField">Field type</typeparam>
+        /// <returns>GameBuilder to chaining</returns>
+        public GameBuilder AddField<TField>()
             where TField : class, IGameField
         {
             services.AddTypeAndImplementation<IGameField, TField>();
@@ -29,7 +42,12 @@ namespace NoughtsCrosses.DI
             return this;
         }
 
-        public GameBuilder UseGame<TGame>()
+        /// <summary>
+        /// Add specified game to container
+        /// </summary>
+        /// <typeparam name="TGame">Game type</typeparam>
+        /// <returns>GameBuilder to chaining</returns>
+        public GameBuilder AddGame<TGame>()
             where TGame : class, IGame
         {
             services.AddTypeAndImplementation<IGame, TGame>();

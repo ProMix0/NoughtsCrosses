@@ -3,23 +3,30 @@
 namespace NoughtsCrosses.Abstractions
 {
     /// <summary>
-    /// Базовый класс для всех реализаций игры крестики-нолики
+    /// Base class for realizations
     /// </summary>
     public abstract class AbstractGame : IGame
     {
-        //Игроки
-        protected IPlayer cross;
-        protected IPlayer zero;
-        //Поле
         protected readonly IGameField field;
         protected readonly ILogger<AbstractGame> logger;
 
         /// <summary>
-        /// Конструктор, через который внедряются зависимости класса
+        /// Cross player
         /// </summary>
-        /// <param name="player1">Первый игрок</param>
-        /// <param name="player2">Второй игрок</param>
-        /// <param name="field">Поле</param>
+        protected IPlayer cross;
+
+        /// <summary>
+        /// Nought player
+        /// </summary>
+        protected IPlayer zero;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="player1">First player</param>
+        /// <param name="player2">Second player</param>
+        /// <param name="field">Game field</param>
+        /// <param name="logger">Logger</param>
         public AbstractGame(IPlayer player1, IPlayer player2, IGameField field, ILogger<AbstractGame> logger)
         {
             cross = player1;
@@ -28,16 +35,10 @@ namespace NoughtsCrosses.Abstractions
             this.logger = logger;
         }
 
-        /// <summary>
-        /// Метод, обнуляющий текуще состояние игры, начиная её сначала
-        /// </summary>
         public abstract void Restart();
 
-        /// <summary>
-        /// Метод хода в игре. Позволяет сделать ход каждому из участников
-        /// </summary>
-        /// <returns>Возможны ли дальнейшие ходы</returns>
         public abstract Task<bool> Turn();
+
 
         public virtual async Task<bool> IsRestartWanted()
         {

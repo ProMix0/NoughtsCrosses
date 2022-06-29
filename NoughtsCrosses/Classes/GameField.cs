@@ -1,30 +1,82 @@
-﻿using NoughtsCrosses.Abstractions;
+﻿using Microsoft.Extensions.Logging;
+using NoughtsCrosses.Abstractions;
 using NoughtsCrosses.Common;
 using NoughtsCrosses.Utils;
-using Microsoft.Extensions.Logging;
 
 namespace NoughtsCrosses.Classes
 {
     /// <summary>
-    /// Поле для крестиков-ноликов
+    /// Base noughts and crosses field
     /// </summary>
     public class GameField : IGameField
     {
-        //Матрица клеток
+        protected readonly ILogger<GameField> logger;
+
+        protected readonly ReadonlyField readonlyField;
+
+        // List of win sequences to iterate (dumb solution)
+        private readonly Point[][] winIndexes = new Point[][]
+        {
+            new Point[]
+            {
+                new(0, 0),
+                new(0, 1),
+                new(0, 2)
+            },
+            new Point[]
+            {
+                new(1, 0),
+                new(1, 1),
+                new(1, 2)
+            },
+            new Point[]
+            {
+                new(2, 0),
+                new(2, 1),
+                new(2, 2)
+            },
+
+            new Point[]
+            {
+                new(0, 0),
+                new(1, 0),
+                new(2, 0)
+            },
+            new Point[]
+            {
+                new(0, 1),
+                new(1, 1),
+                new(2, 1)
+            },
+            new Point[]
+            {
+                new(0, 2),
+                new(1, 2),
+                new(2, 2)
+            },
+
+            new Point[]
+            {
+                new(0, 0),
+                new(1, 1),
+                new(2, 2)
+            },
+            new Point[]
+            {
+                new(2, 0),
+                new(1, 1),
+                new(0, 2)
+            }
+        };
+
         protected CellState[,] field = new CellState[3, 3];
 
         public GameField(ILogger<GameField> logger)
         {
-            readonlyField = new(this,logger);
+            readonlyField = new(this, logger);
             this.logger = logger;
         }
 
-        /// <summary>
-        /// Клетка на поле
-        /// </summary>
-        /// <param name="i">Строка</param>
-        /// <param name="j">Столбец</param>
-        /// <returns>Состояние клетки</returns>
         public virtual CellState this[int i, int j]
         {
             get => field[i, j];
@@ -33,98 +85,28 @@ namespace NoughtsCrosses.Classes
         public virtual int Width { get; protected set; } = 3;
         public virtual int Height { get; protected set; } = 3;
 
-        /// <summary>
-        /// Устанавливает состояние клетки поля
-        /// </summary>
-        /// <param name="point">Координаты клетки</param>
-        /// <param name="markType">Состояние</param>
         public virtual void Set(Point point, CellState markType)
         {
             if (markType == CellState.Empty)
                 throw logger.LogExceptionMessage(new ArgumentException("Unknown cell state", nameof(markType)));
 
-            if (field[point.x, point.y] != CellState.Empty)
+            if (field[point.X, point.Y] != CellState.Empty)
                 throw logger.LogExceptionMessage(new ArgumentException("Cell already filled", nameof(point)));
 
-            field[point.x, point.y] = markType;
+            field[point.X, point.Y] = markType;
         }
 
-        //Список последовательней, которые надо проверять для проверки выигрыша на поле 3x3 (ленивое решение)
-        private readonly Point[][] winIndexes = new Point[][]
-        {
-            new Point[]
-            {
-                new(0,0),
-                new(0,1),
-                new(0,2)
-            },
-            new Point[]
-            {
-                new(1,0),
-                new(1,1),
-                new(1,2)
-            },
-            new Point[]
-            {
-                new(2,0),
-                new(2,1),
-                new(2,2)
-            },
-
-            new Point[]
-            {
-                new(0,0),
-                new(1,0),
-                new(2,0)
-            },
-            new Point[]
-            {
-                new(0,1),
-                new(1,1),
-                new(2,1)
-            },
-            new Point[]
-            {
-                new(0,2),
-                new(1,2),
-                new(2,2)
-            },
-
-            new Point[]
-            {
-                new(0,0),
-                new(1,1),
-                new(2,2)
-            },
-            new Point[]
-            {
-                new(2,0),
-                new(1,1),
-                new(0,2)
-            }
-        };
-
-        protected virtual IEnumerable<IEnumerable<Point>> WinIndexes() => winIndexes;
-
-        /// <summary>
-        /// Проверка на окончание игры
-        /// </summary>
-        /// <param name="winner">Параметр, возвращающий победителя<para/>
-        /// <see cref="CellState.Cross"/> - крестики выиграли<br/>
-        /// <see cref="CellState.Zero"/> - нолики выиграли<br/>
-        /// <see cref="CellState.Empty"/> - ничья выиграли</param>
-        /// <returns></returns>
         public virtual bool IsEndGame(out CellState winner)
         {
             winner = CellState.Empty;
 
             foreach (var seq in WinIndexes())
             {
-                //Если все крестики
+                // All crosses
                 if (CheckWin(seq, CellState.Cross, ref winner))
                     return true;
 
-                //Если все нолики
+                // All noughts
                 if (CheckWin(seq, CellState.Zero, ref winner))
                     return true;
             }
@@ -136,7 +118,7 @@ namespace NoughtsCrosses.Classes
                 bool win = true;
                 foreach (var point in seq)
                 {
-                    if (field[point.x, point.y] != player)
+                    if (field[point.X, point.Y] != player)
                     {
                         win = false;
                         break;
@@ -147,35 +129,33 @@ namespace NoughtsCrosses.Classes
                 {
                     winner = player;
                 }
+
                 return win;
             }
 
             bool CheckEndGame()
             {
                 for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        //Если хоть одна клетка пустая, то игра не завершена
-                        if (field[i, j] == CellState.Empty) return false;
-                //Иначе ничья
+                for (int j = 0; j < 3; j++)
+                    // If empty cells exist - game not ended
+                    if (field[i, j] == CellState.Empty)
+                        return false;
+                // Otherwise draw
                 return true;
             }
         }
 
-        /// <summary>
-        /// Очистка поля
-        /// </summary>
         public virtual void Clear()
         {
             field = new CellState[3, 3];
         }
 
-        protected readonly ReadonlyField readonlyField;
-        protected readonly ILogger<GameField> logger;
+        public virtual ReadonlyField AsReadonly() => readonlyField;
 
         /// <summary>
-        /// Возвращает объект только для чтения
+        /// Internal win indexes enumeration helper
         /// </summary>
-        /// <returns>Объект только для чтения</returns>
-        public virtual ReadonlyField AsReadonly() => readonlyField;
+        /// <returns>List of win sequences</returns>
+        protected virtual IEnumerable<IEnumerable<Point>> WinIndexes() => winIndexes;
     }
 }
