@@ -16,6 +16,8 @@ namespace NoughtsCrosses.Abstractions
         /// </summary>
         protected IPlayer cross;
 
+        protected bool gameCompleted;
+
         /// <summary>
         /// Nought player
         /// </summary>
@@ -39,7 +41,18 @@ namespace NoughtsCrosses.Abstractions
             zero.Init(CellState.Zero, field.AsReadonly());
         }
 
-        public abstract void Restart();
+        public virtual void Restart()
+        {
+            gameCompleted = false;
+
+            // Swap players symbols
+            (zero, cross) = (cross, zero);
+
+            cross.Init(CellState.Cross, field.AsReadonly());
+            zero.Init(CellState.Zero, field.AsReadonly());
+
+            field.Clear();
+        }
 
         public abstract Task<bool> Turn();
 

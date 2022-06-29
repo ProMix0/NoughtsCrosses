@@ -5,12 +5,10 @@ using NoughtsCrosses.Common;
 namespace NoughtsCrosses.Classes
 {
     /// <summary>
-    /// Реализация игры крестики-нолики
+    /// Basic realisation
     /// </summary>
     public class Game : AbstractGame
     {
-        private bool gameCompleted = false;
-
         public Game(IPlayer player1, IPlayer player2, IGameField field, ILogger<Game> logger)
             : base(player1, player2, field, logger)
         {
@@ -62,19 +60,6 @@ namespace NoughtsCrosses.Classes
                             break;
                     }
             }
-        }
-
-        public override void Restart()
-        {
-            gameCompleted = false;
-
-            // Swap players symbols
-            (zero, cross) = (cross, zero);
-
-            cross.Init(CellState.Cross, field.AsReadonly());
-            zero.Init(CellState.Zero, field.AsReadonly());
-
-            field.Clear();
         }
     }
 }
