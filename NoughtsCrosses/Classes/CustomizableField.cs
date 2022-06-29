@@ -67,21 +67,18 @@ namespace NoughtsCrosses.Classes
         {
             List<List<Point>> result = new();
 
-            //Вертикальные
-            VerticalIndexes(result);
+            AddVerticalIndexes();
 
-            //Горизонтальные
-            HorizontalIndexes(result);
+            AddHorizontalIndexes();
 
-            //Диагональные возрастающие
-            DiagonalUpIndexes(result);
+            AddDiagonalUpIndexes();
 
-            //Диагональные убывающие
-            DiagonalDownIndexes(result);
+            AddDiagonalDownIndexes();
 
             return result;
 
-            void VerticalIndexes(List<List<Point>> result)
+
+            void AddVerticalIndexes()
             {
                 for (int i = 0; i <= field.GetLength(0) - WinSequenceLength; i++)
                     for (int j = 0; j < field.GetLength(1); j++)
@@ -98,7 +95,7 @@ namespace NoughtsCrosses.Classes
                 }
             }
 
-            void HorizontalIndexes(List<List<Point>> result)
+            void AddHorizontalIndexes()
             {
                 for (int i = 0; i < field.GetLength(0); i++)
                     for (int j = 0; j <= field.GetLength(1) - WinSequenceLength; j++)
@@ -115,7 +112,7 @@ namespace NoughtsCrosses.Classes
                 }
             }
 
-            void DiagonalUpIndexes(List<List<Point>> result)
+            void AddDiagonalUpIndexes()
             {
                 for (int i = WinSequenceLength - 1; i < field.GetLength(0); i++)
                     for (int j = 0; j <= field.GetLength(1) - WinSequenceLength; j++)
@@ -132,7 +129,7 @@ namespace NoughtsCrosses.Classes
                 }
             }
 
-            void DiagonalDownIndexes(List<List<Point>> result)
+            void AddDiagonalDownIndexes()
             {
                 for (int i = 0; i <= field.GetLength(0) - WinSequenceLength; i++)
                     for (int j = 0; j <= field.GetLength(1) - WinSequenceLength; j++)
