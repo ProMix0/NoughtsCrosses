@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using BetterHostedServices;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NoughtsCrosses.Utils
 {
@@ -17,5 +18,26 @@ namespace NoughtsCrosses.Utils
             where TType : class
             =>
                 services.AddTransient<TType, TImplementation>().AddTransient<TImplementation>();
+    }
+
+    /// <summary>
+    /// CriticalBackgroundService without app ending behavior
+    /// </summary>
+    public abstract class NotEndingBackgroundService : CriticalBackgroundService
+    {
+        private static readonly FalseApplicationEnder ender = new();
+
+        public NotEndingBackgroundService() : base(ender)
+        {
+        }
+
+        protected abstract override Task ExecuteAsync(CancellationToken stoppingToken);
+
+        private class FalseApplicationEnder : IApplicationEnder
+        {
+            public void ShutDownApplication()
+            {
+            }
+        }
     }
 }

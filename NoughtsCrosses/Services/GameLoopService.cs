@@ -1,5 +1,4 @@
-﻿using BetterHostedServices;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NoughtsCrosses.Abstractions;
 using NoughtsCrosses.Utils;
@@ -9,14 +8,13 @@ namespace NoughtsCrosses.Services
     /// <summary>
     /// Service for simple run the game
     /// </summary>
-    public class GameLoopService : CriticalBackgroundService
+    public class GameLoopService : NotEndingBackgroundService
     {
         private readonly IGame game;
         private readonly IHostApplicationLifetime lifetime;
         private readonly ILogger<GameLoopService> logger;
 
         public GameLoopService(IGame game, IHostApplicationLifetime lifetime, ILogger<GameLoopService> logger)
-            : base(null)
         {
             this.game = game;
             this.lifetime = lifetime;
