@@ -3,10 +3,10 @@ using NoughtsCrosses.Common;
 
 namespace NoughtsCrosses.Classes
 {
-    [Obsolete("Not supported")]
+
     public class ConsolePlayer : IPlayer
     {
-        private IGameField field;
+        private IGameField field = null!;
 
         private CellState mark;
 
@@ -63,8 +63,11 @@ namespace NoughtsCrosses.Classes
 
             Console.WriteLine(header);
 
+            Console.WriteLine($"+{new string('-', field.Width)}+");
+
             for (int i = 0; i < field.Height; i++)
             {
+                Console.Write('|');
                 for (int j = 0; j < field.Width; j++)
                     Console.Write(field[i, j] switch
                     {
@@ -73,8 +76,10 @@ namespace NoughtsCrosses.Classes
                         CellState.Zero => '0',
                         _ => '?'
                     });
-                Console.WriteLine();
+                Console.WriteLine('|');
             }
+
+            Console.WriteLine($"+{new string('-', field.Width)}+");
         }
     }
 }
