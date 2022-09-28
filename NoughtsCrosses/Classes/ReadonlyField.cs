@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using NoughtsCrosses.Abstractions;
 using NoughtsCrosses.Common;
-using NoughtsCrosses.Utils;
+using Utils;
 
 namespace NoughtsCrosses.Classes
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace NoughtsCrosses.Utils
+namespace Utils
 {
     public static class LogUtils
     {

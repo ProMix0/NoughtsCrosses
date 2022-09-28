@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace NoughtsCrosses.Utils
+namespace Utils
 {
     public static class OptionsUtils
     {

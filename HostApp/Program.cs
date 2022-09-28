@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using NoughtsCrosses.Classes;
 using NoughtsCrosses.DI;
-using NoughtsCrosses.WpfClient;
+//using NoughtsCrosses.WpfClient;
 
 Console.WriteLine("Building host");
 
@@ -14,9 +14,9 @@ IHost host = Host.CreateDefaultBuilder()
             .AddNoughtsCrossesGame(builder =>
                     builder
                         .AddPlayer<AiPlayer>()
-                        .AddPlayer<WpfPlayer>()
+                        .AddPlayer<ConsolePlayer>()
                         .AddField<OptimizedField>()
-                        .AddGame<Game<AiPlayer, WpfPlayer>>(),
+                        .AddGame<Game<AiPlayer, ConsolePlayer>>(),
                 true)
     )
     .UseConsoleLifetime()

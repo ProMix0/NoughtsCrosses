@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using NoughtsCrosses.Abstractions;
 using NoughtsCrosses.Common;
-using NoughtsCrosses.Utils;
+using Utils;
 
 namespace NoughtsCrosses.Classes
 {
@@ -39,14 +39,14 @@ namespace NoughtsCrosses.Classes
 
             //Enumerating all cells to find empty
             for (int i = 0; i < field!.Height; i++)
-            for (int j = 0; j < field.Width; j++)
-                if (field[i, j] == CellState.Empty)
-                {
-                    Point point = new(i, j);
+                for (int j = 0; j < field.Width; j++)
+                    if (field[i, j] == CellState.Empty)
+                    {
+                        Point point = new(i, j);
 
-                    logger.LogDebug("Turning result: {Point}", point);
-                    return Task.FromResult(point);
-                }
+                        logger.LogDebug("Turning result: {Point}", point);
+                        return Task.FromResult(point);
+                    }
 
             throw new InvalidOperationException("No one empty cells").LogExceptionMessage(logger);
         }

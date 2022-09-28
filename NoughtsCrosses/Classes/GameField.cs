@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using NoughtsCrosses.Abstractions;
 using NoughtsCrosses.Common;
-using NoughtsCrosses.Utils;
+using Utils;
 
 namespace NoughtsCrosses.Classes
 {
@@ -136,10 +136,10 @@ namespace NoughtsCrosses.Classes
             bool CheckEndGame()
             {
                 for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
-                    // If empty cells exist - game not ended
-                    if (field[i, j] == CellState.Empty)
-                        return false;
+                    for (int j = 0; j < 3; j++)
+                        // If empty cells exist - game not ended
+                        if (field[i, j] == CellState.Empty)
+                            return false;
                 // Otherwise draw
                 return true;
             }

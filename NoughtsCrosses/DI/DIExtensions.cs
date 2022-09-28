@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NoughtsCrosses.Classes;
 using NoughtsCrosses.Services;
-using NoughtsCrosses.Utils;
+using Utils;
 
 namespace NoughtsCrosses.DI
 {

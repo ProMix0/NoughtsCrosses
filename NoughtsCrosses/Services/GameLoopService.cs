@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NoughtsCrosses.Abstractions;
-using NoughtsCrosses.Utils;
+using Utils;
 
 namespace NoughtsCrosses.Services
 {

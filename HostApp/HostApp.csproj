@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -13,7 +13,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NoughtsCrosses\NoughtsCrosses.csproj" />
-    <ProjectReference Include="..\WpfClient\WpfClient.csproj" />
+    <!--<ProjectReference Include="..\WpfClient\WpfClient.csproj" />
+    FIXME add conditional include
+    -->
   </ItemGroup>
 
   <ItemGroup>

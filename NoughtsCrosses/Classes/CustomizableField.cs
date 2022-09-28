@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NoughtsCrosses.Common;
-using NoughtsCrosses.Utils;
+using Utils;
 
 namespace NoughtsCrosses.Classes
 {
@@ -90,8 +90,8 @@ namespace NoughtsCrosses.Classes
             void AddVerticalIndexes()
             {
                 for (int i = 0; i <= field.GetLength(0) - WinSequenceLength; i++)
-                for (int j = 0; j < field.GetLength(1); j++)
-                    GetCol(i, j);
+                    for (int j = 0; j < field.GetLength(1); j++)
+                        GetCol(i, j);
 
                 void GetCol(int i, int j)
                 {
@@ -107,8 +107,8 @@ namespace NoughtsCrosses.Classes
             void AddHorizontalIndexes()
             {
                 for (int i = 0; i < field.GetLength(0); i++)
-                for (int j = 0; j <= field.GetLength(1) - WinSequenceLength; j++)
-                    GetRow(i, j);
+                    for (int j = 0; j <= field.GetLength(1) - WinSequenceLength; j++)
+                        GetRow(i, j);
 
                 void GetRow(int i, int j)
                 {
@@ -124,8 +124,8 @@ namespace NoughtsCrosses.Classes
             void AddDiagonalUpIndexes()
             {
                 for (int i = WinSequenceLength - 1; i < field.GetLength(0); i++)
-                for (int j = 0; j <= field.GetLength(1) - WinSequenceLength; j++)
-                    GetUpDiagonal(i, j);
+                    for (int j = 0; j <= field.GetLength(1) - WinSequenceLength; j++)
+                        GetUpDiagonal(i, j);
 
                 void GetUpDiagonal(int i, int j)
                 {
@@ -141,8 +141,8 @@ namespace NoughtsCrosses.Classes
             void AddDiagonalDownIndexes()
             {
                 for (int i = 0; i <= field.GetLength(0) - WinSequenceLength; i++)
-                for (int j = 0; j <= field.GetLength(1) - WinSequenceLength; j++)
-                    GetDownDiagonal(i, j);
+                    for (int j = 0; j <= field.GetLength(1) - WinSequenceLength; j++)
+                        GetDownDiagonal(i, j);
 
                 void GetDownDiagonal(int i, int j)
                 {

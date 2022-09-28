@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NoughtsCrosses.Abstractions;
-using NoughtsCrosses.Utils;
+using Utils;
 
 namespace NoughtsCrosses.DI
 {

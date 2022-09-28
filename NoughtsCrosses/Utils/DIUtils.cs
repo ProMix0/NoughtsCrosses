@@ -1,7 +1,7 @@
 ﻿using BetterHostedServices;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace NoughtsCrosses.Utils
+namespace Utils
 {
     public static class DIUtils
     {
